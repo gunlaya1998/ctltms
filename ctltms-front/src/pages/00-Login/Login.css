@@ -1,0 +1,63 @@
+.background{
+    background-image: linear-gradient(to right bottom, #5c5c5c, #5e656f, #55727e, #4a8081, #518b76, #5c9570, #6e9d66, #86a45b, #8db05b, #94bc5b, #9bc85a, #a2d459);
+}
+
+.content-container{
+    width: 100vw;
+    height: 100vh;
+}
+
+.data-container{
+    width: 60vw;
+    height: 75vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+}
+
+.textImg-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    padding: 10px 10px;
+    font-family: 'Kanit';
+}
+
+.login-title{
+    font-weight: 500;
+    font-size: 40px;
+    padding-bottom: 15px;
+}
+
+.error-message{
+    font-weight: 300;
+    font-size: 11px;
+    color: red;
+}
+
+.forgotPassword{
+    color: #5c5c5c;
+    font-size: 12px;
+    font-weight: 300;
+    margin: 60px 0 0 0;
+    padding: 0 0 5px 0;
+}
+
+.login-button{
+    min-width: 16vw;
+    height: 43px;
+    color: white;
+    background-color: #A2D459;
+    border: none;
+    border-radius: 25px;
+    font-family: 'Kanit';
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+}
