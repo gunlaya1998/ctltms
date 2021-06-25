@@ -1,0 +1,29 @@
+.sidebarStyle {
+    width: 270px;
+    height: 100vh;
+    margin-right: 0;
+    font-family: 'Kanit';
+    float: left;
+}
+
+.menuHeader {
+    font-size: 1.25rem;
+    font-weight: 500;
+    padding-bottom: 10px;
+}
+
+.menuHeader-2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    padding-top: 1.25rem;
+    padding-bottom: 10px;
+}
+
+.menuItems {
+    padding-left: 1.25rem;
+    cursor: pointer;
+}
+
+.menuItems :hover{
+    font-weight: 400;
+}

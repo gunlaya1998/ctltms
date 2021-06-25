@@ -13,6 +13,8 @@ const Container = styled.div`
 
 const IconContainer = styled.div`
   display: flex;
+  padding-top: 6px;
+  padding-right: 16px;
 `
 
 const Navbar = () => (
