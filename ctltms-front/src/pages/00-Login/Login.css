@@ -35,7 +35,13 @@
     padding-bottom: 15px;
 }
 
+.textfield-indent{
+    margin-bottom: 20px;
+}
+
 .error-message{
+    display: flex;
+    justify-content: flex-start;
     font-weight: 300;
     font-size: 11px;
     color: red;
@@ -47,6 +53,7 @@
     font-weight: 300;
     margin: 60px 0 0 0;
     padding: 0 0 5px 0;
+    cursor: pointer;
 }
 
 .login-button{
@@ -60,4 +67,62 @@
     font-size: 15px;
     font-weight: 400;
     cursor: pointer;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 990;
+}
+
+.modal-paper{
+    padding: 40px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: rgba(92, 92, 92, 0.7);
+    border-radius: 8px;
+    font-family: 'Kanit';
+}
+
+.modal-closeButton{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.modal-title{
+    font-size: 18px;
+    font-weight: 500;
+    color: #366F47;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.modal-text{
+    font-size: 16px;
+    font-weight: 400;
+    color: #3c3c3c;
+    padding-bottom: 5px;
+}
+
+.modal-inline{
+    display: inline-flex;
+    justify-content: center;
+    padding-top: 5px;
 }

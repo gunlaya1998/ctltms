@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "axios": "^0.21.1"
+    "@material-ui/icons": "^4.11.2",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.6.0"
   }
 }

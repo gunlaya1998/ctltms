@@ -38,7 +38,7 @@ router.route("/account").get(function(req, res) {
             res.send(result);
         }
         else {
-            res.send({message: "Wrong username or password"});
+            res.send({message: "ชื่อบัญชีผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง"});
         }
     });
 });

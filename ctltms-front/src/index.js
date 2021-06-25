@@ -8,15 +8,15 @@ import {
 } from "react-router-dom";
 
 import './index.css';
-import main from './pages/00-Login/Login';
-import home from './App';
+import Login from './pages/00-Login/Login';
+import Dashboard from './pages/01-Dashboard/Dashboard';
 
 ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Switch>               
-                <Route exact path="/" component={main}/>
-                <Route path="/home" component={home}/>
+                <Route exact path="/" component={Login} />
+                <Route path="/home" component={Dashboard} />
             </Switch>
         </Router>
     </React.StrictMode>,
