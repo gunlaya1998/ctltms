@@ -118,7 +118,6 @@ export default class main extends Component {
                                         id="standard-basic" 
                                         label="ชื่อบัญชีผู้ใช้งาน" 
                                         className="textfield-indent"
-                                        required
                                         loginStatus={this.state.loginStatus}
                                         onChange={(e) => {
                                             this.setState({username: e.target.value});
