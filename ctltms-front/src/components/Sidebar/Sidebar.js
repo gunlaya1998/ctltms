@@ -29,7 +29,7 @@ export default class main extends Component {
 
     render(){
         return (
-            <div class="sidebarStyle d-flex flex-column flex-shrink-0 p-3 bg-light" >                
+            <div class="sidebarStyle d-flex flex-column flex-shrink-0 p-3 bg-light float-left" >                
                 <div className="menuHeader">ระบบควบคุม</div>
                 <ul class="menuItems nav nav-pills flex-column">
                     {this.state.staffMenu.map( (menu, index) => {
