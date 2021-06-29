@@ -1,8 +1,10 @@
 .sidebarStyle {
     width: 270px;
     height: 100vh;
-    /* margin-right: 0; */
     font-family: 'Kanit';
+    position: sticky; 
+    top: 0; 
+    z-index: 1;
 }
 
 .menuHeader {

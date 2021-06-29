@@ -5,6 +5,12 @@ import Logo from '../images/01-logo.png';
 import Account from '../images/account.png'
 import Notification from '../images/noti.png'
 
+// const StyledNav = styled.div`
+//   position: sticky; 
+//   top: 0; 
+//   z-index: 10;
+// `
+
 const Container = styled.div`
   width: 100vw;
   display: flex;

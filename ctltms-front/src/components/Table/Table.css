@@ -23,6 +23,7 @@
     border-radius: 6px;
     overflow:hidden;
     font-family: 'Kanit';
+    font-size: 0.875rem;
 }
 
 .custom-thead {
@@ -31,8 +32,8 @@
 }
 
 .custom-th {
-    color: #366F47;
     font-weight: 500;
+    color: #366F47;
     text-align: center;
     vertical-align: middle;
 }
@@ -41,4 +42,9 @@
     font-weight: 300;
     text-align: center;
     vertical-align: middle;
+}
+
+.custom-p {
+    margin-bottom: 0;
+    padding: 0.25rem 0.25rem;
 }

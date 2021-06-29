@@ -30,6 +30,7 @@
 
 
 .global-row {
+    width: 100%;
     display: flex;
     flex-wrap: nowrap;
     padding-left: 1rem;
@@ -37,10 +38,10 @@
 }
 
 .global-content {
+    width: calc(100% - 270px);
     display: flex;
     flex-direction: column;
     padding: 1rem 1.625rem 1rem 1.625rem;
-    width: calc(100% - 270px);
 }
 
 

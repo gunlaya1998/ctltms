@@ -17,9 +17,16 @@ const Table = ({theadData, tbodyData}) => {
                 <tbody>
                     {tbodyData.map((rowData) => (
                         <tr>
-                            {rowData.map((item) => {
-                                return <td class="custom-td">{item}</td>;
-                            })}
+                            {rowData.map((item) => (
+                                // <td>{typeof(item)}</td>
+                                typeof(item)==="object"? 
+                                    <td class="custom-td">
+                                        {item.map((i) => (
+                                            <p class="custom-p">{i}</p>
+                                        ))}
+                                    </td>
+                                    : <td class="custom-td">{item}</td>
+                            ))}
                         </tr>
                     ))}
                 </tbody>

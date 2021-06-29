@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Table from '../../components/Table/Table';
 import DashboardTable from '../../components/Dashboard_Table/Dashboard_Table';
+import Chart from '../../components/DonutChart';
 import '../../components/Global_style.css'
 import './Dashboard.css'
 
@@ -13,9 +14,16 @@ export default class main extends Component {
     tbodyData:  [["1", "johny y.", "john","0812345678", "working", "cp1523", "CP"], 
                 ["2", "alexa p.", "nile","0912345678", "pending", "sk5424", "Sukishi"],
                 ["3", "jenny h.", "jay","0212345678", "working", "jh2563", "Black Canyon"],
-                ["1", "johny y.", "john","0812345678", "working", "cp1523", "CP"], 
-                ["2", "alexa p.", "nile","0912345678", "pending", "sk5424", "Sukishi"],
-                ["3", "jenny h.", "jay","0212345678", "working", "jh2563", "Black Canyon"]],
+                ["4", "johny y.", "john","0812345678", "working", "cp1523", "CP"], 
+                ["5", "alexa p.", "nile","0912345678", "pending", "sk5424", "Sukishi"],
+                ["6", "jenny h.", "jay","0212345678", "working", "jh2563", "Black Canyon"]],
+    theadData_Order:  ['ที่', 'หมายเลข Order', 'ลูกค้า', 'เวลา', 'จำนวนรถ', 'ประเภทรถ', 'ทะเบียนรถ', 'สถานะการปฏิบัติงาน'],
+    tbodyData_Order:  [["1", "cp1523", "CP", "03.30-05.00", 1, ["4ล้อ-ห้องเย็น"], ["ขพ1628"], "วิ่งงาน"], 
+                ["2", "sk5424", "Sukishi", "04.30-08.00", 1, ["4ล้อ-ห้องเย็น"], ["-"], "ยกเลิก"],
+                ["3", "jh2563", "Black Canyon", "07.30-11.00", 2, ["4ล้อ-แห้ง", "6ล้อ-ห้องเย็น"], ["กข1234", "บข8523"], "วื่งงาน"],
+                ["4", "cp1523", "CP", "08.30-11.30", 1, ["4ล้อ-ห้องเย็น"], ["ขพ1628"], "วิ่งงาน"], 
+                ["5", "sk5424", "Sukishi", "08.30-11.30", 1, ["4ล้อ-ห้องเย็น"], ["ขพ1628"], "วิ่งงาน"],
+                ["6", "jh2563", "Black Canyon", "08.30-11.30", 1, ["4ล้อ-ห้องเย็น"], ["ขพ1628"], "วิ่งงาน"]],
     dashAvail:  {
                   'title': 'รถพร้อมใช้งาน', 
                   'total': 64,
@@ -42,7 +50,16 @@ export default class main extends Component {
                 {'class': 'normal', 'size': '10 ล้อ', 'type': [['แห้ง', '-'], ['ห้องเย็น', '-']]},
                 {'class': 'special', 'size':'หัวลากพร้อมหาง', 'amount': '-'},
                 {'class': 'special', 'size':'หัวลากปั่นไฟพร้อมหาง','amount': '-'}]
-    }
+    },
+    chartData_Driver: [['Status', 'Amount'],
+                      ['ว่าง', 8],
+                      ['ระหว่างการปฏิบัติงาน (วิ่งงาน)', 15],
+                      ['ลา', 2],],
+    chartData_Order: [['Status', 'Amount'],
+                      ['รอดำเนินการ', 3],
+                      ['ระหว่างการปฏิบัติงาน (วิ่งงาน)', 8],
+                      ['สำเร็จ', 12],
+                      ['ยกเลิก', 4]],
   }
 
   render(){
@@ -64,12 +81,18 @@ export default class main extends Component {
 
                 <div class="dash-container mr-15">
                   <div class="dash-title">พนักงานขับรถ</div>
+                  <Chart 
+                    data={this.state.chartData_Driver} 
+                    colors={[{color: "#73E600"},{color: "#FFD966"},{color: "#FF6666"}]} />
                   <Table theadData={this.state.theadData} tbodyData={this.state.tbodyData} />
                 </div>
 
                 <div class="dash-container">
                   <div class="dash-title">Order</div>
-                  <Table theadData={this.state.theadData} tbodyData={this.state.tbodyData} />
+                  <Chart 
+                    data={this.state.chartData_Order} 
+                    colors={[{color: "#36A2EB"}, {color: "#FFD966"}, {color: "#73E600"}, {color: "#FF6666"}]} />
+                  <Table theadData={this.state.theadData_Order} tbodyData={this.state.tbodyData_Order} />
                 </div>
 
               </div>
