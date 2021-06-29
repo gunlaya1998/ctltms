@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import './Dashboard_Table.css';
 
 const StyledThead = styled.thead`
-    height: 3.5rem;
     border-bottom: 1px solid #B3B9BD;
     & :nth-child(1) {
         background-color:  ${props => 
