@@ -1,10 +1,9 @@
 import React from 'react';
 import './Table.css';
 
-const Table = ({theadData, tbodyData}) => {
+const Table = ({theadData, tbodyData, edit}) => {
     return (
         <div class="custom-table">
-
             <table class="table table-striped table-bordered">
                 <thead class="custom-thead">
                     <tr>
@@ -18,7 +17,6 @@ const Table = ({theadData, tbodyData}) => {
                     {tbodyData.map((rowData) => (
                         <tr>
                             {rowData.map((item) => (
-                                // <td>{typeof(item)}</td>
                                 typeof(item)==="object"? 
                                     <td class="custom-td">
                                         {item.map((i) => (
@@ -27,6 +25,10 @@ const Table = ({theadData, tbodyData}) => {
                                     </td>
                                     : <td class="custom-td">{item}</td>
                             ))}
+                            {edit?
+                                <td class="custom-td">sdvsd</td>
+                                :null
+                            }
                         </tr>
                     ))}
                 </tbody>

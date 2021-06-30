@@ -1,0 +1,30 @@
+.menubar.container {
+    width: fit-content;
+    display: flex;
+    padding-left: 0;
+}
+
+.menubar.menu-btn {
+    color: #404040;
+    font-weight: 300;
+    display: flex;
+    border: none;
+    box-shadow: none;
+    background-color: white;
+    padding-left: 0;
+}
+
+.menubar.menu-btn:hover {
+    font-weight: 400;
+}
+
+.amount-box {
+    width: fit-content;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #366F47;
+    border: 1px solid #707070;
+    border-radius: 6px;
+    padding: 0 5px;
+    margin-left: 7px;
+}
