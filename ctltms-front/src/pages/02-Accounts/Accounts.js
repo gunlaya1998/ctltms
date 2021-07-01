@@ -10,22 +10,26 @@ import './Accounts.css';
 
 export default class main extends Component {
     state = {
-        staffHeader: ['ที่', 'ชื่อบัญชีผู้ใช้', 'สถานะบัญชี', 'ชื่อ-สกุล', 'เบอร์โทรศัพท์', 'อีเมล', 'แก้ไข'],
-        tbodyData:  [["1", "johny y.", "john","0812345678", "working", "cp1523"], 
-        ["2", "alexa p.", "nile","0912345678", "pending", "sk5424"],
-        ["3", "jenny h.", "jay","0212345678", "working", "jh2563"],
-        ["4", "johny y.", "john","0812345678", "working", "cp1523"], 
-        ["5", "alexa p.", "nile","0912345678", "pending", "sk5424"],
-        ["6", "jenny h.", "jay","0212345678", "working", "jh2563"]],
+        menuSelected: 1,
+        staffHeader: ['ที่', 'ชื่อบัญชีผู้ใช้', 'สถานะบัญชี', 'ชื่อ-สกุล', 'เบอร์โทรศัพท์', 'แก้ไข'],
         staffData: [],
     }
 
     componentDidMount() {
-        axios.get(`https://jsonplaceholder.typicode.com/users`)
-                .then(res => {
-                const persons = res.data;
-                this.setState({ persons });
-            })
+        axios.get(`http://localhost:4000/staffaccount`)
+        .then((res) => {
+            let staff = [];
+            for(var i = 0; i < res.data.length; i++){
+                let tmp = [];
+                tmp.push(`${i+1}`);
+                tmp.push(res.data[i].account);
+                tmp.push(res.data[i].status);
+                tmp.push(res.data[i].first_name+" "+res.data[i].last_name);
+                tmp.push(res.data[i].telephone);
+                staff.push(tmp);
+            }
+            this.setState({staffData: staff});
+        });
     }
 
     render(){
@@ -39,7 +43,7 @@ export default class main extends Component {
                         <SearchBar />
                         <div class="global-data">
                             <div className="account-menu">
-                                <MenuBar name="พนักงาน" amount={135}/>
+                                <MenuBar selected={true} name="พนักงาน" amount={135}/>
                                 <MenuBar name="ลูกค้า" amount={235}/>
                                 <MenuBar name="ประวัติการเข้าใช้งาน"/>
                             </div>
@@ -47,7 +51,7 @@ export default class main extends Component {
 {/* Content Start Here */}
                             <Table 
                                 theadData={this.state.staffHeader}
-                                tbodyData={this.state.tbodyData}
+                                tbodyData={this.state.staffData}
                                 edit
                             />
 {/* Content End Here */}

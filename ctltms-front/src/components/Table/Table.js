@@ -1,10 +1,11 @@
 import React from 'react';
+import EditIcon from '../../images/edit.png'
 import './Table.css';
 
 const Table = ({theadData, tbodyData, edit}) => {
     return (
         <div class="custom-table">
-            <table class="table table-striped table-bordered">
+            <table responsive class="table table-striped table-bordered">
                 <thead class="custom-thead">
                     <tr>
                         {theadData.map((title) => {
@@ -26,7 +27,9 @@ const Table = ({theadData, tbodyData, edit}) => {
                                     : <td class="custom-td">{item}</td>
                             ))}
                             {edit?
-                                <td class="custom-td">sdvsd</td>
+                                <td class="custom-td">
+                                    <img type="button" src={EditIcon} alt="edit" width="15px" />
+                                </td>
                                 :null
                             }
                         </tr>

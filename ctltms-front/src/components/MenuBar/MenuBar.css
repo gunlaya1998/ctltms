@@ -2,9 +2,10 @@
     width: fit-content;
     display: flex;
     padding-left: 0;
+    padding-right: 20px;
 }
 
-.menubar.menu-btn {
+/* .menubar.menu-btn {
     color: #404040;
     font-weight: 300;
     display: flex;
@@ -12,7 +13,9 @@
     box-shadow: none;
     background-color: white;
     padding-left: 0;
-}
+    text-decoration: #366F47 underline 2px;
+} */
+    
 
 .menubar.menu-btn:hover {
     font-weight: 400;
