@@ -8,6 +8,7 @@ const PORT = 4000;
 let accounts = require("./models/account");
 let staffaccount = require("./models/account_staff");
 let customeraccount = require("./models/account_customer");
+let log = require("./models/account_log");
 
 app.use(express.json());
 app.use(cors());
@@ -59,6 +60,18 @@ router.route("/staffaccount").get(function(req, res) {
 
 router.route("/customeraccount").get(function(req, res) {
     customeraccount.find({}
+    , function(err, result) {
+        if (err) {
+            res.send({err: err});
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+router.route("/log").get(function(req, res) {
+    log.find({}
     , function(err, result) {
         if (err) {
             res.send({err: err});

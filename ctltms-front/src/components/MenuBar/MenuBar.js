@@ -8,22 +8,24 @@ const MenuButton = styled.button`
     display: flex;
     border: none;
     box-shadow: none;
-    background-color: white;
+    background-color:${props => (props.select===props.name? "green" : "red")};
     padding: 0 0 3px 0;
-    opacity: ${props => (props.select===true? "1" : "0.4")};
-    border-bottom: ${props => (props.select===true? "3px solid #366F47" : null)};
+    opacity: ${props => (props.select===props.name? "1" : "0.4")};
+    border-bottom: ${props => (props.select===props.name? "3px solid #366F47" : null)};
 `
 
 const MenuBar = ({selected, name, amount}) => {
     return (
         <div class="menubar container">
-            <MenuButton select={selected}>
+            <MenuButton select={selected} name={name}>
                 <div id={name}>{name}</div>
                 {amount? 
                     <div class="amount-box">{amount}</div>
                     : null
                 }
             </MenuButton>
+            {selected===name? <p>yes</p> : <p>no</p>}
+            <p>{selected} : {name}</p>
         </div>
     );
 };
