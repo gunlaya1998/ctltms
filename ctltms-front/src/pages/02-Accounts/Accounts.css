@@ -1,27 +1,10 @@
-.menubar.container {
+/* .menubar.container {
     width: fit-content;
     display: flex;
     padding-left: 0;
     padding-right: 20px;
-}
+} */
 
-.menubar.menu-btn:hover {
+/* .menubar.menu-btn:hover {
     font-weight: 400;
-}
-
-.amount-box {
-    width: fit-content;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #366F47;
-    border: 1px solid #707070;
-    border-radius: 6px;
-    padding: 0 5px;
-    margin-left: 7px;
-}
-
-.account-menu {
-    width: fit-content;
-    display: flex;
-    padding-bottom: 1.125rem;
-}
+} */

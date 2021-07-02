@@ -4,7 +4,6 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import SearchBar from '../../components/SearchBar/SearchBar';
-// import MenuBar from '../../components/MenuBar/MenuBar';
 import Table from '../../components/Table/Table';
 import '../../components/Global_style.css';
 import './Accounts.css';
@@ -24,7 +23,9 @@ const MenuButton = styled.button`
 
 export default class main extends Component {
     state = {
-        menuData: [{"name": "พนักงาน", "amount": 135}, {"name": "ลูกค้า", "amount": 235}, {"name": "ประวัติการเข้าใช้งาน"}],
+        menuData:   [{"name": "พนักงาน", "amount": 135}, 
+                    {"name": "ลูกค้า", "amount": 235}, 
+                    {"name": "ประวัติการเข้าใช้งาน"}],
         menuSelected: "พนักงาน",
         staffHeader: ['ที่', 'ชื่อบัญชีผู้ใช้', 'สถานะบัญชี', 'ชื่อ-สกุล', 'เบอร์โทรศัพท์', 'แก้ไข'],
         staffData: [],
@@ -108,7 +109,7 @@ export default class main extends Component {
                         <div className="global-title">S02 - จัดการบัญชีผู้ใช้</div>
                         <SearchBar />
                         <div class="global-data">
-                            <div className="account-menu">
+                            <div className="global-menu">
                                 {this.state.menuData.map( (menu) => (
                                     <MenuButton 
                                         onClick={() => this.handleSelect(menu.name)}
@@ -117,7 +118,7 @@ export default class main extends Component {
                                     >
                                         {menu.name}
                                         {menu.amount? 
-                                            <div class="amount-box">{menu.amount}</div>
+                                            <div class="global-amount-box">{menu.amount}</div>
                                             : null
                                         }
                                     </MenuButton>
