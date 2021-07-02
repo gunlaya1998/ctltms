@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+
 const router = express.Router();
 const PORT = 4000;
 
@@ -9,6 +10,9 @@ let accounts = require("./models/account");
 let staffaccount = require("./models/account_staff");
 let customeraccount = require("./models/account_customer");
 let log = require("./models/account_log");
+let vehicle_own = require("./models/vehicle_own");
+let vehicle_asso = require("./models/vehicle_asso");
+let staff = require("./models/staff");
 
 app.use(express.json());
 app.use(cors());
@@ -72,6 +76,42 @@ router.route("/customeraccount").get(function(req, res) {
 
 router.route("/log").get(function(req, res) {
     log.find({}
+    , function(err, result) {
+        if (err) {
+            res.send({err: err});
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+router.route("/vehicle").get(function(req, res) {
+    vehicle_own.find({}
+    , function(err, result) {
+        if (err) {
+            res.send({err: err});
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+router.route("/vehicleAsso").get(function(req, res) {
+    vehicle_asso.find({}
+    , function(err, result) {
+        if (err) {
+            res.send({err: err});
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+router.route("/staff").get(function(req, res) {
+    staff.find({}
     , function(err, result) {
         if (err) {
             res.send({err: err});
