@@ -29,44 +29,43 @@ export default class main extends Component {
 
     render(){
         return (
-            <div class="sidebarStyle d-flex flex-column flex-shrink-0 p-3 bg-light float-left" >                
+            <div className="sidebarStyle d-flex flex-column flex-shrink-0 p-3 bg-light float-left" >                
                 <div className="menuHeader">ระบบควบคุม</div>
-                <ul class="menuItems nav nav-pills flex-column">
+                <ul className="menuItems nav nav-pills flex-column">
                     {this.state.staffMenu.map( (menu, index) => {
                         return (index+1)===this.props.menuIndex? 
                                     <MenuSelected   
-                                        to={this.state.pages[index]} 
-                                        key={index+1} 
-                                        class="item nav-item">
+                                        to={this.state.pages[index]}                                         key={index+1} 
+                                        className="item nav-item">
                                             {menu}
                                     </MenuSelected>
                                     : <MenuItem 
                                         to={this.state.pages[index]}
                                         key={index+1} 
-                                        class="item nav-item">
+                                        className="item nav-item">
                                             {menu}
                                     </MenuItem>
                         }
                     )}
                 </ul>
                 <div className="menuHeader-2">ระบบสำหรับลูกค้า</div>
-                <ul class="menuItems nav nav-pills flex-column">
-                    {this.state.customerMenu.map( (menu, index) => {
+                <ul className="menuItems nav nav-pills flex-column">
+                    {/* {this.state.customerMenu.map( (menu, index) => {
                         return (index+9)===this.props.menuIndex? 
                                     <MenuSelected
                                         
                                         key={index+9} 
-                                        class="item nav-item">
+                                        className="item nav-item">
                                             {menu}
                                     </MenuSelected>
                                     : <MenuItem 
 
                                         key={index+9} 
-                                        class="item nav-item">
+                                        className="item nav-item">
                                             {menu}
                                     </MenuItem>
                         }
-                    )}
+                    )} */}
                 </ul>
             </div>
         )

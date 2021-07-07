@@ -71,24 +71,24 @@ export default class main extends Component {
             <div className="global-content">
               <div className="global-title">S01 - ภาพรวมระบบ</div>
 {/* Content Start Here */}
-              <div class="global-row">
+              <div className="global-row">
                 <DashboardTable theme="Green" data={this.state.dashAvail} />
                 <DashboardTable theme="Orange" data={this.state.dashFix} />
                 <DashboardTable theme="Red" data={this.state.dashOOF} />
               </div>
 
-              <div class="global-row">
+              <div className="global-row">
 
-                <div class="dash-container mr-15">
-                  <div class="dash-title">พนักงานขับรถ</div>
+                <div className="dash-container mr-15">
+                  <div className="dash-title">พนักงานขับรถ</div>
                   <Chart 
                     data={this.state.chartData_Driver} 
                     colors={[{color: "#73E600"},{color: "#FFD966"},{color: "#FF6666"}]} />
                   <Table theadData={this.state.theadData} tbodyData={this.state.tbodyData} />
                 </div>
 
-                <div class="dash-container">
-                  <div class="dash-title">Order</div>
+                <div className="dash-container">
+                  <div className="dash-title">Order</div>
                   <Chart 
                     data={this.state.chartData_Order} 
                     colors={[{color: "#36A2EB"}, {color: "#FFD966"}, {color: "#73E600"}, {color: "#FF6666"}]} />

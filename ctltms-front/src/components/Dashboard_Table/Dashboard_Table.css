@@ -6,23 +6,6 @@
     margin-bottom: 0;
 }
 
-.dash-custom-table {
-    width: 100vw;
-    border: 1px solid #B3B9BD;
-    border-radius: 6px;
-    overflow:hidden;
-    font-family: 'Kanit';
-    margin-right: 0.9375rem;
-}
-
-.dash-custom-table-no-mr {
-    width: 100vw;
-    border: 1px solid #B3B9BD;
-    border-radius: 6px;
-    overflow:hidden;
-    font-family: 'Kanit';
-}
-
 .dash-th {
     font-size: 1.375rem;
     font-weight: 500;

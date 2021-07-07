@@ -16,11 +16,11 @@ const MenuButton = styled.button`
 
 const MenuBar = ({selected, name, amount}) => {
     return (
-        <div class="menubar container">
+        <div className="menubar container">
             <MenuButton select={selected} name={name}>
                 <div id={name}>{name}</div>
                 {amount? 
-                    <div class="amount-box">{amount}</div>
+                    <div className="amount-box">{amount}</div>
                     : null
                 }
             </MenuButton>

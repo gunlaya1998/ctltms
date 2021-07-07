@@ -19,7 +19,7 @@ const StyledTextfield = styled(TextField)`
         font-weight: 300;
     }
     && .MuiInput-underline:before {
-        border-bottom: ${props => (props.loginStatus===""? '1px solid rgba(118, 118, 118, 0.6)':'2px solid #FF0000')};
+        border-bottom: ${props => (props.loginstatus===""? '1px solid rgba(118, 118, 118, 0.6)':'2px solid #FF0000')};
     }
 `
 
@@ -27,7 +27,7 @@ export default class main extends Component {
     state = {
         username: "",
         password: "",
-        loginStatus: "",
+        loginstatus: "",
         isLoggedIn : false,
         stateModal: false,
         role: "",
@@ -43,7 +43,7 @@ export default class main extends Component {
             if(response.data.message === "" || response.data.message === undefined){
                 this.setState({isLoggedIn: response.data[0].isLoggedIn});
             } else {
-                this.setState({loginStatus: response.data.message});
+                this.setState({loginstatus: response.data.message});
             }
         });
     }
@@ -90,13 +90,13 @@ export default class main extends Component {
                         <div className="textImg-container">
                             <div className="login-title">เข้าสู่ระบบ</div>
 
-                            {this.state.loginStatus===""? 
+                            {this.state.loginstatus===""? 
                                 <>
                                     <StyledTextfield
                                         id="standard-basic" 
                                         label="ชื่อบัญชีผู้ใช้งาน" 
                                         className="textfield-indent"
-                                        loginStatus={this.state.loginStatus}
+                                        loginstatus={this.state.loginstatus}
                                         onChange={(e) => {
                                             this.setState({username: e.target.value});
                                         }}
@@ -105,7 +105,7 @@ export default class main extends Component {
                                         id="standard-password-input"
                                         label="รหัสผ่าน" 
                                         type="password"
-                                        loginStatus={this.state.loginStatus}
+                                        loginstatus={this.state.loginstatus}
                                         onChange={(e) => {
                                             this.setState({password: e.target.value});
                                         }}
@@ -118,7 +118,7 @@ export default class main extends Component {
                                         id="standard-basic" 
                                         label="ชื่อบัญชีผู้ใช้งาน" 
                                         className="textfield-indent"
-                                        loginStatus={this.state.loginStatus}
+                                        loginstatus={this.state.loginstatus}
                                         onChange={(e) => {
                                             this.setState({username: e.target.value});
                                         }}
@@ -134,7 +134,7 @@ export default class main extends Component {
                                         id="standard-password-input"
                                         label="รหัสผ่าน" 
                                         type="password"
-                                        loginStatus={this.state.loginStatus}
+                                        loginstatus={this.state.loginstatus}
                                         onChange={(e) => {
                                             this.setState({password: e.target.value});
                                         }}
@@ -149,7 +149,7 @@ export default class main extends Component {
                                 </>
                             }
 
-                            <p className="error-message">{this.state.loginStatus}</p>
+                            <p className="error-message">{this.state.loginstatus}</p>
                             <p className="forgotPassword" onClick={this.openModal}>ลืมรหัสผ่าน</p>
 
                             <button onClick={this.login} className="login-button">เข้าสู่ระบบ</button> 

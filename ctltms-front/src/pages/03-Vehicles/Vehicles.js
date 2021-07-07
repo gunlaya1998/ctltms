@@ -51,6 +51,10 @@ export default class main extends Component {
                 tmp.push(res.data[i].car_temp_start+ "-" +res.data[i].car_temp_end);
                 tmp.push(res.data[i].weight);
                 tmp.push(res.data[i].status_work);
+                // if(res.data[i].status_car =="พร้อมใช้งาน"){
+                //     tmp.push(<StatusIcon />);
+                // }
+
                 tmp.push(res.data[i].status_car);
                 dataList.push(tmp);
             }
@@ -115,7 +119,7 @@ export default class main extends Component {
                     <div className="global-content">
                         <div className="global-title">S03 - จัดการข้อมูลรถขนส่ง</div>
                         <SearchBar />
-                        <div class="global-data">
+                        <div className="global-data">
                             <div className="global-menu">
                                 {this.state.menuData.map( (menu) => (
                                     <MenuButton 
@@ -125,7 +129,7 @@ export default class main extends Component {
                                     >
                                         {menu.name}
                                         {menu.amount? 
-                                            <div class="global-amount-box">{menu.amount}</div>
+                                            <div className="global-amount-box">{menu.amount}</div>
                                             : null
                                         }
                                     </MenuButton>

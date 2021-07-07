@@ -108,7 +108,7 @@ export default class main extends Component {
                     <div className="global-content">
                         <div className="global-title">S02 - จัดการบัญชีผู้ใช้</div>
                         <SearchBar />
-                        <div class="global-data">
+                        <div className="global-data">
                             <div className="global-menu">
                                 {this.state.menuData.map( (menu) => (
                                     <MenuButton 
@@ -118,7 +118,7 @@ export default class main extends Component {
                                     >
                                         {menu.name}
                                         {menu.amount? 
-                                            <div class="global-amount-box">{menu.amount}</div>
+                                            <div className="global-amount-box">{menu.amount}</div>
                                             : null
                                         }
                                     </MenuButton>
