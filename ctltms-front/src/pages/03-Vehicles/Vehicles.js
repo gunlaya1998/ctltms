@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar/Sidebar'
+import VehicleTable from '../../components/Vehicle_Table/Vehicle_Table'
 import Table from '../../components/Table/Table';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import '../../components/Global_style.css'
@@ -17,24 +18,26 @@ const MenuButton = styled.button`
     background-color: white;
     padding: 0 0 2px 0;
     margin-right: 1.25rem;
-    opacity: ${props => (props.select===props.name? "1" : "0.4")};
-    border-bottom: ${props => (props.select===props.name? "3px solid #366F47" : null)};
+    opacity: ${props => (props.select===props.id? "1" : "0.4")};
+    border-bottom: ${props => (props.select===props.id? "3px solid #366F47" : null)};
 `
 
 export default class main extends Component {
     state = {
-        menuData:   [{"name": "ทั้งหมด", "amount": 85}, 
-                    {"name": "พร้อมใช้งาน", "amount": 60}, 
-                    {"name": "กำลังซ่อม", "amount": 6},
-                    {"name": "เสีย", "amount": 3},
-                    {"name": "รถร่วม", "amount": 16},],
-        menuSelected: "ทั้งหมด",
+        menuData:   [{"menu_id": 1, "name": "ทั้งหมด", "amount": 85}, 
+                    {"menu_id": 2, "name": "พร้อมใช้งาน", "amount": 60}, 
+                    {"menu_id": 3, "name": "กำลังซ่อม", "amount": 6},
+                    {"menu_id": 4, "name": "เสีย", "amount": 3},
+                    {"menu_id": 5, "name": "รถร่วม", "amount": 16},],
+        menuSelected: 1,
         totalHeader: ['ที่', 'หมายเลขทะเบียน', 'หมวดจังหวัด', 'ขนาดรถ', 'ประเภทรถ', 'อุณหภูมิ ( ํc)', 'น้ำหนัก (ตัน)', 'สถานะการปฏิบัติงาน', 'สภาพรถ', 'แก้ไข'],
         totalData: [],
-        customerHeader: ['ที่', 'ชื่อบัญชีผู้ใช้', 'สถานะบัญชี', 'ชื่อ-สกุล', 'ร้าน / บริษัท', 'ประเภทธุรกิจ', 'เบอร์โทรศัพท์', 'แก้ไข'],
-        customerData: [],
-        logHeader: ['ที่', 'Timestamp', 'ชื่อบัญชีผู้ใช้', 'Role', 'ชื่อ-สกุล', 'ร้าน / บริษัท', 'เบอร์โทรศัพท์'],
-        logData: [],
+        statusHeader: ['ที่', 'หมายเลขทะเบียน', 'หมวดจังหวัด', 'ขนาดรถ', 'ประเภทรถ', 'อุณหภูมิ ( ํc)', 'น้ำหนัก (ตัน)', 'สถานะการปฏิบัติงาน', 'แก้ไข'],
+        availData: [],
+        fixingData: [],
+        oosData: [],
+        assoHeader: ['ที่', 'ขนาดรถ', 'ประเภทรถ', 'อุณหภูมิ ( ํc)', 'น้ำหนัก (ตัน)', 'หมายเลขทะเบียน', 'บริษัท/เจ้าของรถ', 'เบอร์โทรศัพท์', 'เรทราคา/ชั่งโมง', 'แก้ไข'],
+        assoData: [],
     }
 
     componentDidMount() {
@@ -42,73 +45,56 @@ export default class main extends Component {
         .then((res) => {
             let dataList = [];
             for(var i = 0; i < res.data.length; i++){
-                let tmp = [];
-                tmp.push(`${i+1}`);
-                tmp.push(res.data[i].plate_no);
-                tmp.push(res.data[i].plate_province);
-                tmp.push(res.data[i].car_size);
-                tmp.push(res.data[i].car_type);
-                tmp.push(res.data[i].car_temp_start+ "-" +res.data[i].car_temp_end);
-                tmp.push(res.data[i].weight);
-                tmp.push(res.data[i].status_work);
-                // if(res.data[i].status_car =="พร้อมใช้งาน"){
-                //     tmp.push(<StatusIcon />);
-                // }
-
-                tmp.push(res.data[i].status_car);
+                let tmp = {};
+                tmp['no'] = `${i+1}`;
+                tmp['plate_no'] = res.data[i].plate_no;
+                tmp['plate_province'] = res.data[i].plate_province;
+                tmp['car_brand'] = res.data[i].car_brand;
+                tmp['car_model'] = res.data[i].car_model;
+                tmp['car_size'] = res.data[i].car_size;
+                tmp['car_type'] = res.data[i].car_type;
+                tmp['car_temp_start'] = res.data[i].car_temp_start
+                tmp['car_temp_end'] = res.data[i].car_temp_end;
+                tmp['weight'] = res.data[i].weight;
+                tmp['status_work'] = res.data[i].status_work;
+                tmp['status_car'] = res.data[i].status_car;
+                tmp['date_register'] = res.data[i].date_register;
                 dataList.push(tmp);
             }
             this.setState({totalData: dataList});
         });
     }
 
-    getData_Customer = () => {
+    getData_Asso = () => {
         axios.get(`http://localhost:4000/customeraccount`)
             .then((res) => {
-                let customer = [];
+                let dataList = [];
                 for(var i = 0; i < res.data.length; i++){
-                    let tmp = [];
-                    tmp.push(`${i+1}`);
-                    tmp.push(res.data[i].account);
-                    tmp.push(res.data[i].status);
-                    tmp.push(res.data[i].first_name+" "+res.data[i].last_name);
-                    tmp.push(res.data[i].company);
-                    tmp.push(res.data[i].Business);
-                    tmp.push(res.data[i].telephone);
-                    customer.push(tmp);
+                    let tmp = {};
+                    tmp['no'] = `${i+1}`;
+                    tmp['plate_no'] = res.data[i].plate_no;
+                    tmp['plate_province'] = res.data[i].plate_province;
+                    tmp['car_brand'] = res.data[i].car_brand;
+                    tmp['car_model'] = res.data[i].car_model;
+                    tmp['car_size'] = res.data[i].car_size;
+                    tmp['car_type'] = res.data[i].car_type;
+                    tmp['car_temp_start'] = res.data[i].car_temp_start
+                    tmp['car_temp_end'] = res.data[i].car_temp_end;
+                    tmp['weight'] = res.data[i].weight;
+                    tmp['owner'] = res.data[i].owner;
+                    tmp['price'] = res.data[i].price;
+                    dataList.push(tmp);
                 }
-                this.setState({customerData: customer});
+                this.setState({customerData: dataList});
             });
         }
 
-    getData_Log = () => {
-        axios.get(`http://localhost:4000/log`)
-            .then((res) => {
-                let log = [];
-                for(var i = 0; i < res.data.length; i++){
-                    let tmp = [];
-                    tmp.push(`${i+1}`);
-                    tmp.push(res.data[i].timestamp);
-                    tmp.push(res.data[i].account);
-                    tmp.push(res.data[i].role);
-                    tmp.push(res.data[i].first_name+" "+res.data[i].last_name);
-                    tmp.push(res.data[i].company);
-                    tmp.push(res.data[i].telephone);
-                    log.push(tmp);
-                }
-                this.setState({logData: log});
-            });
-        }
-
-    handleSelect = (name) => {
-        this.setState({menuSelected: name});
-        if (name==="ลูกค้า"){
-            this.getData_Customer();
-        } else if (name==="ประวัติการเข้าใช้งาน"){
-            this.getData_Log();
+    handleSelect = (id) => {
+        this.setState({menuSelected: id});
+        if (id===5){
+            this.getData_Asso();
         }
     }
-
 
     render(){
         return (
@@ -123,8 +109,8 @@ export default class main extends Component {
                             <div className="global-menu">
                                 {this.state.menuData.map( (menu) => (
                                     <MenuButton 
-                                        onClick={() => this.handleSelect(menu.name)}
-                                        name={menu.name}
+                                        onClick={() => this.handleSelect(menu.menu_id)}
+                                        id={menu.menu_id}
                                         select={this.state.menuSelected}
                                     >
                                         {menu.name}
@@ -136,24 +122,35 @@ export default class main extends Component {
                                 ))}
                             </div>
 {/* Content Start Here */}
-                            {this.state.menuSelected==="ทั้งหมด"? 
-                                <Table 
+                            {this.state.menuSelected===1? 
+                                <VehicleTable 
                                     theadData={this.state.totalHeader}
                                     tbodyData={this.state.totalData}
                                     edit
                                 /> 
-                                : this.state.menuSelected==="ลูกค้า"?
+                                : this.state.menuSelected===2?
                                     <Table 
-                                        theadData={this.state.customerHeader}
-                                        tbodyData={this.state.customerData}
+                                        theadData={this.state.statusHeader}
+                                        tbodyData={this.state.availData}
                                         edit
                                     /> 
-                                    :   <Table 
-                                            theadData={this.state.logHeader}
-                                            tbodyData={this.state.logData}
-                                        />
+                                    : this.state.menuSelected===3?
+                                        <Table 
+                                            theadData={this.state.statusHeader}
+                                            tbodyData={this.state.fixingData}
+                                            edit
+                                        /> 
+                                        : this.state.menuSelected===4?
+                                            <Table 
+                                                theadData={this.state.statusHeader}
+                                                tbodyData={this.state.oosData}
+                                                edit
+                                            /> 
+                                            :   <Table 
+                                                    theadData={this.state.assoHeader}
+                                                    tbodyData={this.state.assoData}
+                                                />
                             }
-
 {/* Content End Here */}
                         </div>
                     </div>

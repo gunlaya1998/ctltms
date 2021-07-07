@@ -1,19 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import EditIcon from '../../images/edit.png'
 import './Table.css';
-
-const StatusIcon = styled.div`
-    height: 15px;
-    width: 15px;
-    background-color: ${props => (
-        props.status==="avail"? "#43A047" 
-        : props.status==="fixing"? "#FB8C00"
-            : "#E53935")};
-    border-radius: 50%;
-    /* display: inline-block; */
-`
-
 
 const Table = ({theadData, tbodyData, edit}) => {
     return (
