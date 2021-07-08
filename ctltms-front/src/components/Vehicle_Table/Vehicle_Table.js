@@ -39,22 +39,13 @@ const Table = ({theadData, tbodyData}) => {
                             <td key="plate_province" className="custom-td">
                                 {rowData.plate_province}
                             </td>
-                            {rowData.car_size==="หัวลากพร้อมหาง" ||rowData.car_size==="หัวลากมีปั่นไฟพร้อมหาง"? 
-                                <td key="car_size" colSpan="2" className="custom-td">
-                                    {rowData.car_size}
-                                </td>
-                                :<>
-                                    <td key="car_size" className="custom-td">
-                                        {rowData.car_size}
-                                    </td>
-                                    <td key="car_type" className="custom-td">
-                                        {rowData.car_type}
-                                    </td>
-                                </>
-                            }
-                            
+                            <td key="car_size" className="custom-td">
+                                {rowData.car_size}
+                            </td>
+                            <td key="car_type" className="custom-td">
+                                {rowData.car_type}
+                            </td>
                             <td key="temperature" className="custom-td">
-                                {/* res.data[i].car_temp_start+ "-" +res.data[i].car_temp_end */}
                                 {rowData.car_temp_start} - {rowData.car_temp_end}
                             </td>
                             <td key="weight" className="custom-td">
@@ -77,4 +68,3 @@ const Table = ({theadData, tbodyData}) => {
     );};
 
 export default Table;
-
