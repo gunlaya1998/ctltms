@@ -4,6 +4,8 @@ import Add from '../../images/add.png'
 import './SearchBar.css'
 
 const SearchBar = () => {
+    // const [openFilter, setOpenFilter] = useState(0);
+
     return (
         <div className="searchbar barContainer">
             <input 

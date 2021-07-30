@@ -1,0 +1,86 @@
+.modalAccount-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 990;
+}
+
+.modalAccount-paper{
+    padding: 40px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: rgba(92, 92, 92, 0.7);
+    border-radius: 8px;
+    font-family: 'Kanit';
+}
+
+.modalAccount-closeButton{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.modalAccount-title{
+    font-size: 18px;
+    font-weight: 500;
+    color: #366F47;
+    padding-top: 0;
+    padding-bottom: 20px;
+}
+
+.modalAccount-inline{
+    display: inline-flex;
+    justify-content: flex-start;
+    padding-top: 5px;
+}
+
+.modalAccount-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 0.875rem;
+    font-weight: 300;
+}
+
+.modalAccount-row {
+    width: 34.625rem;
+    display: flex;
+    margin-top: 1.25rem;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.form-control {
+    font-weight: 300;
+}
+
+.form-option {
+    font-weight: 300;
+}
+
+/* .form-optionCategory {
+    font-size: bla;
+} */
+
+hr.divider {
+    border-top: 1px dashed red;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}

@@ -5,8 +5,10 @@ import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import Table from '../../components/Table/Table';
+// import AddAccountModal from './Modal-Accounts';
 import '../../components/Global_style.css';
 import './Accounts.css';
+import EditModal from './Modal-Accounts';
 
 const MenuButton = styled.button`
     color: #404040;
@@ -102,12 +104,13 @@ export default class main extends Component {
     render(){
         return (
             <div>
+                <EditModal />
                 <Navbar />
                 <div className="global-container">
                     <Sidebar menuIndex={2} />
                     <div className="global-content">
                         <div className="global-title">S02 - จัดการบัญชีผู้ใช้</div>
-                        <SearchBar />
+                        <SearchBar page="Accounts"/>
                         <div className="global-data">
                             <div className="global-menu">
                                 {this.state.menuData.map( (menu) => (

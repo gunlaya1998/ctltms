@@ -18,7 +18,8 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect("mongodb+srv://kanlaya_je:oetahPfc8nygUwCo@cluster0.tamel.mongodb.net/mock_ctl?retryWrites=true&w=majority", {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology:true
 });
 
 const connection = mongoose.connection;
