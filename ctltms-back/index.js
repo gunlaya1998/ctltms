@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const morgan = require('morgan');
+const bodyParser = require('body-parser');   
 
 const router = express.Router();
 const PORT = 4000;

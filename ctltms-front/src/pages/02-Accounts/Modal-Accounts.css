@@ -63,6 +63,14 @@
     margin-top: 1.25rem;
 }
 
+.modalAccount-rowCenter {
+    width: 34.625rem;
+    display: flex;
+    margin-top: 1.25rem;
+    justify-content: center;
+    margin-top: 1.875rem;
+}
+
 .form-group {
     width: 100%;
 }
@@ -72,15 +80,33 @@
 }
 
 .form-option {
+    font-size: 14px;
     font-weight: 300;
 }
 
-/* .form-optionCategory {
-    font-size: bla;
-} */
+.form-optionCategory {
+    font-style: italic;
+    font-size: 13px;
+    font-weight: 500;
+    color: #717171;
+}
 
-hr.divider {
-    border-top: 1px dashed red;
-    padding-top: 15px;
-    padding-bottom: 15px;
+option.separator {
+    margin-top: 0.313rem;
+    border-top: 1px solid #717171;
+    padding: 0;
+}
+
+.btn-submit {
+    width: 10rem;
+    height: 2.188rem;
+    font-weight: 500;
+    color: #366F47;
+    background-color: white;
+    border: 1px solid #366F47;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, .16);
+}
+
+.btn-submit:hover {
+    background-color: #366F47;
 }
