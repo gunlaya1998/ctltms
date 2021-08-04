@@ -23,7 +23,7 @@ const MenuButton = styled.button`
 
 export default class main extends Component {
     state = {
-        stateModal: true,
+        stateModal: false,
         menuSelected: 'customer',
         formValidate: false,
         optionBusinessLabel:'เลือกประเภทธุรกิจ',
@@ -58,17 +58,25 @@ export default class main extends Component {
             }
         ],
         optionRoles:[
-            'Subscriber', 
-            'Contributor', 
-            'Author', 
+            'Regular Staff', 
             'Editor', 
             'Administrator', 
             'Super Administrator'],
-    }
-
-    onSubmit(e) {
-        e.preventDefault();
-
+        customerData: '',
+        customer_firstName: '',
+        customer_lastName: '',
+        customer_company: '',
+        customer_business: 'ธุรกิจการเกษตร',
+        customer_email: '',
+        customer_telephone: '',
+        customer_account: '',
+        staffData: '',
+        staff_firstName: '',
+        staff_lastName: '',
+        staff_nickName: '',
+        staff_telephone: '',
+        staff_account: '',
+        staff_role: 'Regular Staff'
     }
 
     handleSubmit = (e) => {
@@ -79,28 +87,66 @@ export default class main extends Component {
         }
         this.setState({ formValidate: true });
 
-        alert('A form was submitted');
-
-        fetch('http://localhost:4000/customeraccount', {
-            method: 'POST',
-            // We convert the React state to JSON and send it as the POST body
-            body: JSON.stringify(this.state)
-        }).then(function(response) {
-            console.log(response)
-            return response.json();
-        });
+        // alert('A form was submitted');
+        if(this.state.menuSelected==='customer'){
+            this.setState({ customerData: {
+                first_name: this.state.customer_firstName,
+                last_name: this.state.customer_lastName,
+                company: this.state.customer_company,
+                Business: this.state.customer_business,
+                email: this.state.customer_email,
+                telephone: this.state.customer_telephone,
+                account: this.state.customer_account,
+            }});
+            fetch(`http://localhost:4000/customeraccount/signup`, {
+                method: "POST",
+                headers: {
+                    Accept: 'application/json',
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify(this.state.customerData)
+            })
+            .then(res => {
+                return res.json()
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        } else {
+            this.setState({ staffData: {
+                first_name: this.state.staff_firstName,
+                last_name: this.state.staff_lastName,
+                nickName: this.state.staff_nickName,
+                telephone: this.state.staff_telephone,
+                account: this.state.staff_account,
+                role: this.state.staff_role
+            }});
+            fetch(`http://localhost:4000/staffaccount/signupStaff`, {
+                method: "POST",
+                headers: {
+                    Accept: 'application/json',
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify(this.state.staffData)
+            })
+            .then(res => {
+                return res.json()
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
     
         e.preventDefault()
     };
 
+    handleChange = name => e => {
+        this.setState({[name]: e.target.value});
+    }
+
     handleSelectMenu = (e) => {
         this.setState({ menuSelected: e.target.name });
     }
-
-    handleSelectOption = (e) => {
-        this.setState({ optionBusinessLabel: e.target.optionValue });
-        console.log(this.state.optionBusinessLabel);
-    } 
 
     closeModal = () => {
         this.setState({ stateModal: false });
@@ -134,20 +180,25 @@ export default class main extends Component {
                                     พนักงาน
                                 </MenuButton>
                             </div>
-
 {/*----------------------------- Customer Registration Form -----------------------------*/}
                             {this.state.menuSelected==="customer"? 
                                 <Form noValidate validated={this.state.formValidate} onSubmit={this.handleSubmit}>
                                     <div className="modalAccount-row mb-20">
                                         <Form.Group controlId="formFirstName" className="mr-50">
                                             <Form.Label>ชื่อจริง</Form.Label>
-                                            <Form.Control placeholder="ชื่อจริง" required />
+                                            <Form.Control 
+                                                placeholder="ชื่อจริง" 
+                                                onChange={this.handleChange('customer_firstName')}
+                                                required />
                                             <Form.Control.Feedback />
                                         </Form.Group>
                                     
                                         <Form.Group controlId="formLastName">
                                             <Form.Label>นามสกุล</Form.Label>
-                                            <Form.Control placeholder="นามสกุล" required />
+                                            <Form.Control 
+                                                placeholder="นามสกุล" 
+                                                onChange={this.handleChange('customer_lastName')}
+                                                required />
                                             <Form.Control.Feedback />
                                         </Form.Group>
                                     </div>
@@ -155,13 +206,20 @@ export default class main extends Component {
                                     <div className="modalAccount-row">
                                         <Form.Group controlId="formCompany" className="mr-50">
                                             <Form.Label>บริษัท</Form.Label>
-                                            <Form.Control placeholder="บริษัท" required />
+                                            <Form.Control 
+                                                placeholder="บริษัท" 
+                                                onChange={this.handleChange('customer_company')}
+                                                required />
                                             <Form.Control.Feedback />
                                         </Form.Group>
                                     
                                         <Form.Group controlId="formBusiness">
                                             <Form.Label>ประเภทธุรกิจ</Form.Label>
-                                            <Form.Control as="select" required>
+                                            <Form.Control 
+                                                as="select"
+                                                onChange={this.handleChange('customer_business')}
+                                                required
+                                            >
                                                 {this.state.optionBusiness.map((data) => 
                                                     <>
                                                         <option className="form-optionCategory" disabled> 
@@ -169,7 +227,10 @@ export default class main extends Component {
                                                         </option>
 
                                                         {data.option.map((item) =>
-                                                            <option className="form-option" value={item}>
+                                                            <option 
+                                                                className="form-option" 
+                                                                value={item}
+                                                            >
                                                                 {item}
                                                             </option>
                                                         )}
@@ -185,12 +246,17 @@ export default class main extends Component {
                                     <div className="modalAccount-row mb-20">
                                         <Form.Group controlId="formEmail" className="mr-50">
                                             <Form.Label>อีเมล</Form.Label>
-                                            <Form.Control placeholder="อีเมล"/>
+                                            <Form.Control 
+                                                placeholder="อีเมล"
+                                                onChange={this.handleChange('customer_email')}/>
                                         </Form.Group>
 
                                         <Form.Group controlId="formTelephone">
                                             <Form.Label>เบอร์โทรศัพท์</Form.Label>
-                                            <Form.Control placeholder="เบอร์โทรศัพท์" required />
+                                            <Form.Control 
+                                                placeholder="เบอร์โทรศัพท์" 
+                                                onChange={this.handleChange('customer_telephone')}
+                                                required />
                                             <Form.Control.Feedback />
                                         </Form.Group>
                                     </div>
@@ -198,7 +264,10 @@ export default class main extends Component {
                                     <div className="modalAccount-row mb-20">
                                         <Form.Group controlId="formAccount" className="mr-50">
                                             <Form.Label>ชื่อบัญชีผู้ใช้งาน</Form.Label>
-                                            <Form.Control placeholder="ชื่อบัญชีผู้ใช้งาน" required />
+                                            <Form.Control 
+                                                placeholder="ชื่อบัญชีผู้ใช้งาน" 
+                                                onChange={this.handleChange('customer_account')}
+                                                required />
                                             <Form.Control.Feedback />
                                         </Form.Group>
 
@@ -220,13 +289,19 @@ export default class main extends Component {
                                     <div className="modalAccount-row mb-20">
                                         <Form.Group controlId="formFirstName" className="mr-50">
                                             <Form.Label>ชื่อจริง</Form.Label>
-                                            <Form.Control placeholder="ชื่อจริง" required />
+                                            <Form.Control 
+                                                placeholder="ชื่อจริง" 
+                                                onChange={this.handleChange('staff_firstName')}
+                                                required />
                                             <Form.Control.Feedback />
                                         </Form.Group>
                                     
                                         <Form.Group controlId="formLastName">
                                             <Form.Label>นามสกุล</Form.Label>
-                                            <Form.Control placeholder="นามสกุล" required />
+                                            <Form.Control 
+                                                placeholder="นามสกุล" 
+                                                onChange={this.handleChange('staff_lastName')}
+                                                required />
                                             <Form.Control.Feedback />
                                         </Form.Group>
                                     </div>
@@ -234,13 +309,19 @@ export default class main extends Component {
                                     <div className="modalAccount-row">
                                         <Form.Group controlId="formNickname" className="mr-50">
                                             <Form.Label>ชื่อเล่น</Form.Label>
-                                            <Form.Control placeholder="ชื่อเล่น" required />
+                                            <Form.Control 
+                                                placeholder="ชื่อเล่น" 
+                                                onChange={this.handleChange('staff_nickName')}
+                                                required />
                                             <Form.Control.Feedback />
                                         </Form.Group>
 
                                         <Form.Group controlId="formTelephone">
                                             <Form.Label>เบอร์โทรศัพท์</Form.Label>
-                                            <Form.Control placeholder="เบอร์โทรศัพท์" required />
+                                            <Form.Control 
+                                                placeholder="เบอร์โทรศัพท์" 
+                                                onChange={this.handleChange('staff_telephone')}
+                                                required />
                                             <Form.Control.Feedback />
                                         </Form.Group>
                                     </div>
@@ -248,13 +329,19 @@ export default class main extends Component {
                                     <div className="modalAccount-row mb-20">
                                         <Form.Group controlId="formAccount" className="mr-50">
                                             <Form.Label>ชื่อบัญชีผู้ใช้งาน</Form.Label>
-                                            <Form.Control placeholder="ชื่อบัญชีผู้ใช้งาน" required />
+                                            <Form.Control 
+                                                placeholder="ชื่อบัญชีผู้ใช้งาน" 
+                                                onChange={this.handleChange('staff_account')}
+                                                required />
                                             <Form.Control.Feedback />
                                         </Form.Group>
 
                                         <Form.Group controlId="formRoles">
                                             <Form.Label>ตำแหน่ง (Roles)</Form.Label>
-                                                <Form.Control as="select" required>
+                                                <Form.Control 
+                                                    as="select" 
+                                                    onChange={this.handleChange('staff_role')}
+                                                    required>
                                                     {this.state.optionRoles.map((data) => 
                                                         <option className="form-option" value={data}>
                                                             {data}

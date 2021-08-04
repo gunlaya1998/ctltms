@@ -8,7 +8,7 @@ import Table from '../../components/Table/Table';
 // import AddAccountModal from './Modal-Accounts';
 import '../../components/Global_style.css';
 import './Accounts.css';
-import EditModal from './Modal-Accounts';
+import AddAccountModal from './Modal-Accounts';
 
 const MenuButton = styled.button`
     color: #404040;
@@ -104,7 +104,7 @@ export default class main extends Component {
     render(){
         return (
             <div>
-                <EditModal />
+                <AddAccountModal />
                 <Navbar />
                 <div className="global-container">
                     <Sidebar menuIndex={2} />
