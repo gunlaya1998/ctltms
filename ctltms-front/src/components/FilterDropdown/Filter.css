@@ -1,0 +1,65 @@
+.filter-rowflexEnd {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.filter-rowCenter {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.filter-column {
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-container {
+    width: 240px;
+    height: fit-content;
+    background-color: white;
+    border: 1px solid #707070;
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+}
+
+.filter-triangle {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #707070;
+    position: relative;
+}
+
+.filter-triangle:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-bottom: 9px solid white;
+    position: absolute;
+    top: 2px;
+    left: -9px;
+}
+
+.filter-formWidth {
+    font-size: 14px;
+    max-width: 11.75rem;
+    height: fit-content;
+}
+
+.filter-btn {
+    font-size: 1rem;
+    min-width: fit-content;
+    width: 5.375rem;
+    height: fit-content;
+    color: #7EBF86;
+    background-color: white;
+    border: 1px solid rgba(126, 191, 134, 0.8);
+    padding: .2rem .2rem;
+    margin-top: 10px;
+}
+

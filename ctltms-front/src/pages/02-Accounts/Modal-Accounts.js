@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+// import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import Form from 'react-bootstrap/Form';
-import { Button, Col } from 'reactstrap';
+import Button from 'react-bootstrap/Button';
 import close from '../../images/exit-buttom@2x.png'
 import './Modal-Accounts.css';
 
@@ -23,7 +24,7 @@ const MenuButton = styled.button`
 
 export default class main extends Component {
     state = {
-        stateModal: false,
+        // stateModal: this.props.showModal,
         menuSelected: 'customer',
         formValidate: false,
         optionBusinessLabel:'เลือกประเภทธุรกิจ',
@@ -62,7 +63,7 @@ export default class main extends Component {
             'Editor', 
             'Administrator', 
             'Super Administrator'],
-        customerData: '',
+        customerData: null,
         customer_firstName: '',
         customer_lastName: '',
         customer_company: '',
@@ -70,7 +71,7 @@ export default class main extends Component {
         customer_email: '',
         customer_telephone: '',
         customer_account: '',
-        staffData: '',
+        staffData: null,
         staff_firstName: '',
         staff_lastName: '',
         staff_nickName: '',
@@ -80,14 +81,13 @@ export default class main extends Component {
     }
 
     handleSubmit = (e) => {
-        const form = e.currentTarget;
-        if (form.checkValidity() === false) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        this.setState({ formValidate: true });
+        // const form = e.currentTarget;
+        // if (form.checkValidity() === false) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        // }
+        // this.setState({ formValidate: true });
 
-        // alert('A form was submitted');
         if(this.state.menuSelected==='customer'){
             this.setState({ customerData: {
                 first_name: this.state.customer_firstName,
@@ -130,13 +130,14 @@ export default class main extends Component {
                 body: JSON.stringify(this.state.staffData)
             })
             .then(res => {
-                return res.json()
+                return res.json();
             })
             .catch(err => {
                 console.log(err);
             })
         }
-    
+        // form.reset();
+        // ReactDOM.findDOMNode(this.form).reset();
         e.preventDefault()
     };
 
@@ -147,231 +148,226 @@ export default class main extends Component {
     handleSelectMenu = (e) => {
         this.setState({ menuSelected: e.target.name });
     }
-
-    closeModal = () => {
-        this.setState({ stateModal: false });
-    }
     
     render(){
+        if (!this.props.showModal) {
+            return null;
+        }
         return (
-            this.state.stateModal? 
-                <div className="modalAccount-backdrop">
-                    <div className="modalAccount-paper">
-                        <img    
-                            src={close}
-                            alt="closeButton" 
-                            width="8px" 
-                            className="modalAccount-closeButton"
-                            onClick={this.closeModal}
-                        />
-                        <div className="modalAccount-title">เพิ่มบัญชีผู้ใช้</div>
-                        <div className="modalAccount-content">
-                            <div className="modalAccount-inline">
-                                <MenuButton 
-                                    onClick={this.handleSelectMenu}
-                                    name="customer"
-                                    select={this.state.menuSelected}>
-                                    ลูกค้า
-                                </MenuButton>
-                                <MenuButton 
-                                    onClick={this.handleSelectMenu}
-                                    name="staff"
-                                    select={this.state.menuSelected}>
-                                    พนักงาน
-                                </MenuButton>
-                            </div>
+            <div className="modalAccount-backdrop">
+                <div className="modalAccount-paper">
+                    <img    
+                        src={close}
+                        alt="closeButton" 
+                        width="8px" 
+                        className="modalAccount-closeButton"
+                        onClick={this.props.onClose}
+                    />
+                    <div className="modalAccount-title">เพิ่มบัญชีผู้ใช้</div>
+                    <div className="modalAccount-content">
+                        <div className="modalAccount-inline">
+                            <MenuButton 
+                                onClick={this.handleSelectMenu}
+                                name="customer"
+                                select={this.state.menuSelected}>
+                                ลูกค้า
+                            </MenuButton>
+                            <MenuButton 
+                                onClick={this.handleSelectMenu}
+                                name="staff"
+                                select={this.state.menuSelected}>
+                                พนักงาน
+                            </MenuButton>
+                        </div>
 {/*----------------------------- Customer Registration Form -----------------------------*/}
-                            {this.state.menuSelected==="customer"? 
-                                <Form noValidate validated={this.state.formValidate} onSubmit={this.handleSubmit}>
-                                    <div className="modalAccount-row mb-20">
-                                        <Form.Group controlId="formFirstName" className="mr-50">
-                                            <Form.Label>ชื่อจริง</Form.Label>
-                                            <Form.Control 
-                                                placeholder="ชื่อจริง" 
-                                                onChange={this.handleChange('customer_firstName')}
-                                                required />
-                                            <Form.Control.Feedback />
-                                        </Form.Group>
-                                    
-                                        <Form.Group controlId="formLastName">
-                                            <Form.Label>นามสกุล</Form.Label>
-                                            <Form.Control 
-                                                placeholder="นามสกุล" 
-                                                onChange={this.handleChange('customer_lastName')}
-                                                required />
-                                            <Form.Control.Feedback />
-                                        </Form.Group>
-                                    </div>
+                        {this.state.menuSelected==="customer"? 
+                            <Form noValidate validated={this.state.formValidate} onSubmit={this.handleSubmit}>
+                                <div className="modalAccount-row mb-20">
+                                    <Form.Group controlId="customerFormFirstName" className="mr-50">
+                                        <Form.Label>ชื่อจริง</Form.Label>
+                                        <Form.Control 
+                                            placeholder="ชื่อจริง" 
+                                            onChange={this.handleChange('customer_firstName')}
+                                            required />
+                                        {/* <Form.Control.Feedback /> */}
+                                    </Form.Group>
+                                
+                                    <Form.Group controlId="customerFormLastName">
+                                        <Form.Label>นามสกุล</Form.Label>
+                                        <Form.Control 
+                                            placeholder="นามสกุล" 
+                                            onChange={this.handleChange('customer_lastName')}
+                                            required />
+                                        {/* <Form.Control.Feedback /> */}
+                                    </Form.Group>
+                                </div>
 
-                                    <div className="modalAccount-row">
-                                        <Form.Group controlId="formCompany" className="mr-50">
-                                            <Form.Label>บริษัท</Form.Label>
-                                            <Form.Control 
-                                                placeholder="บริษัท" 
-                                                onChange={this.handleChange('customer_company')}
-                                                required />
-                                            <Form.Control.Feedback />
-                                        </Form.Group>
-                                    
-                                        <Form.Group controlId="formBusiness">
-                                            <Form.Label>ประเภทธุรกิจ</Form.Label>
-                                            <Form.Control 
-                                                as="select"
-                                                onChange={this.handleChange('customer_business')}
-                                                required
-                                            >
-                                                {this.state.optionBusiness.map((data) => 
-                                                    <>
-                                                        <option className="form-optionCategory" disabled> 
-                                                            {data.type} 
+                                <div className="modalAccount-row">
+                                    <Form.Group controlId="customerFormCompany" className="mr-50">
+                                        <Form.Label>บริษัท</Form.Label>
+                                        <Form.Control 
+                                            placeholder="บริษัท" 
+                                            onChange={this.handleChange('customer_company')}
+                                            required />
+                                        {/* <Form.Control.Feedback /> */}
+                                    </Form.Group>
+                                
+                                    <Form.Group controlId="customerFormBusiness">
+                                        <Form.Label>ประเภทธุรกิจ</Form.Label>
+                                        <Form.Control 
+                                            as="select"
+                                            onChange={this.handleChange('customer_business')}
+                                            required
+                                        >
+                                            {this.state.optionBusiness.map((data) => 
+                                                <>
+                                                    <option className="form-optionCategory" disabled> 
+                                                        {data.type} 
+                                                    </option>
+
+                                                    {data.option.map((item) =>
+                                                        <option 
+                                                            className="form-option" 
+                                                            value={item}
+                                                        >
+                                                            {item}
                                                         </option>
+                                                    )}
+                                                    <option disabled className="separator"></option>
+                                                </>
+                                            )}
+                                        </Form.Control>
+                                        {/* <Form.Control.Feedback /> */}
+                                    </Form.Group> 
+                                </div>
 
-                                                        {data.option.map((item) =>
-                                                            <option 
-                                                                className="form-option" 
-                                                                value={item}
-                                                            >
-                                                                {item}
-                                                            </option>
-                                                        )}
-                                                        {/* <optgroup class="divider"></optgroup> */}
-                                                        <option disabled className="separator"></option>
-                                                    </>
+                                <div className="modalAccount-row mb-20">
+                                    <Form.Group controlId="customerFormEmail" className="mr-50">
+                                        <Form.Label>อีเมล</Form.Label>
+                                        <Form.Control 
+                                            placeholder="อีเมล"
+                                            onChange={this.handleChange('customer_email')}/>
+                                    </Form.Group>
+
+                                    <Form.Group controlId="customerFormTelephone">
+                                        <Form.Label>เบอร์โทรศัพท์</Form.Label>
+                                        <Form.Control 
+                                            placeholder="เบอร์โทรศัพท์" 
+                                            onChange={this.handleChange('customer_telephone')}
+                                            required />
+                                        {/* <Form.Control.Feedback /> */}
+                                    </Form.Group>
+                                </div>
+
+                                <div className="modalAccount-row mb-20">
+                                    <Form.Group controlId="customerFormAccount" className="mr-50">
+                                        <Form.Label>ชื่อบัญชีผู้ใช้งาน</Form.Label>
+                                        <Form.Control 
+                                            placeholder="ชื่อบัญชีผู้ใช้งาน" 
+                                            onChange={this.handleChange('customer_account')}
+                                            required />
+                                        {/* <Form.Control.Feedback /> */}
+                                    </Form.Group>
+
+                                    <Form.Group controlId="customerFormPassword">
+                                        <Form.Label>รหัสผ่าน (Default)</Form.Label>
+                                        <Form.Control type="password" placeholder="12345" readOnly/>
+                                    </Form.Group>
+                                </div>
+
+                                <div className="modalAccount-rowCenter">
+                                    <Button type="reset" className="btn-submit" onClick={this.handleSubmit}>
+                                        บันทึก
+                                    </Button>
+                                </div>
+                            </Form> 
+
+// ----------------------------- Staff Registration Form -----------------------------
+                            : <Form noValidate validated={this.state.formValidate} onSubmit={this.handleSubmit}>
+                                <div className="modalAccount-row mb-20">
+                                    <Form.Group controlId="staffFormFirstName" className="mr-50">
+                                        <Form.Label>ชื่อจริง</Form.Label>
+                                        <Form.Control 
+                                            placeholder="ชื่อจริง" 
+                                            onChange={this.handleChange('staff_firstName')}
+                                            required />
+                                        <Form.Control.Feedback />
+                                    </Form.Group>
+                                
+                                    <Form.Group controlId="staffFormLastName">
+                                        <Form.Label>นามสกุล</Form.Label>
+                                        <Form.Control 
+                                            placeholder="นามสกุล" 
+                                            onChange={this.handleChange('staff_lastName')}
+                                            required />
+                                        <Form.Control.Feedback />
+                                    </Form.Group>
+                                </div>
+
+                                <div className="modalAccount-row">
+                                    <Form.Group controlId="staffFormNickname" className="mr-50">
+                                        <Form.Label>ชื่อเล่น</Form.Label>
+                                        <Form.Control 
+                                            placeholder="ชื่อเล่น" 
+                                            onChange={this.handleChange('staff_nickName')}
+                                            required />
+                                        <Form.Control.Feedback />
+                                    </Form.Group>
+
+                                    <Form.Group controlId="staffFormTelephone">
+                                        <Form.Label>เบอร์โทรศัพท์</Form.Label>
+                                        <Form.Control 
+                                            placeholder="เบอร์โทรศัพท์" 
+                                            onChange={this.handleChange('staff_telephone')}
+                                            required />
+                                        <Form.Control.Feedback />
+                                    </Form.Group>
+                                </div>
+
+                                <div className="modalAccount-row mb-20">
+                                    <Form.Group controlId="staffFormAccount" className="mr-50">
+                                        <Form.Label>ชื่อบัญชีผู้ใช้งาน</Form.Label>
+                                        <Form.Control 
+                                            placeholder="ชื่อบัญชีผู้ใช้งาน" 
+                                            onChange={this.handleChange('staff_account')}
+                                            required />
+                                        <Form.Control.Feedback />
+                                    </Form.Group>
+
+                                    <Form.Group controlId="staffFormRoles">
+                                        <Form.Label>ตำแหน่ง (Roles)</Form.Label>
+                                            <Form.Control 
+                                                as="select" 
+                                                onChange={this.handleChange('staff_role')}
+                                                required>
+                                                {this.state.optionRoles.map((data) => 
+                                                    <option className="form-option" value={data}>
+                                                        {data}
+                                                    </option>
                                                 )}
                                             </Form.Control>
                                             <Form.Control.Feedback />
-                                        </Form.Group> 
-                                    </div>
+                                    </Form.Group> 
 
-                                    <div className="modalAccount-row mb-20">
-                                        <Form.Group controlId="formEmail" className="mr-50">
-                                            <Form.Label>อีเมล</Form.Label>
-                                            <Form.Control 
-                                                placeholder="อีเมล"
-                                                onChange={this.handleChange('customer_email')}/>
-                                        </Form.Group>
+                                </div>
 
-                                        <Form.Group controlId="formTelephone">
-                                            <Form.Label>เบอร์โทรศัพท์</Form.Label>
-                                            <Form.Control 
-                                                placeholder="เบอร์โทรศัพท์" 
-                                                onChange={this.handleChange('customer_telephone')}
-                                                required />
-                                            <Form.Control.Feedback />
-                                        </Form.Group>
-                                    </div>
+                                <div className="modalAccount-row mb-20">
+                                    <Form.Group controlId="staffFormPassword">
+                                        <Form.Label>รหัสผ่าน (Default)</Form.Label>
+                                        <Form.Control type="password" placeholder="staff98765" readOnly />
+                                    </Form.Group>
+                                </div>
 
-                                    <div className="modalAccount-row mb-20">
-                                        <Form.Group controlId="formAccount" className="mr-50">
-                                            <Form.Label>ชื่อบัญชีผู้ใช้งาน</Form.Label>
-                                            <Form.Control 
-                                                placeholder="ชื่อบัญชีผู้ใช้งาน" 
-                                                onChange={this.handleChange('customer_account')}
-                                                required />
-                                            <Form.Control.Feedback />
-                                        </Form.Group>
-
-                                        <Form.Group controlId="formPassword">
-                                            <Form.Label>รหัสผ่าน (Default)</Form.Label>
-                                            <Form.Control type="password" placeholder="12345" readOnly/>
-                                        </Form.Group>
-                                    </div>
-
-                                    <div className="modalAccount-rowCenter">
-                                        <Button type="submit" className="btn-submit">
-                                            บันทึก
-                                        </Button>
-                                    </div>
-                                </Form> 
-
-// ----------------------------- Staff Registration Form -----------------------------
-                                : <Form noValidate validated={this.state.formValidate} onSubmit={this.handleSubmit}>
-                                    <div className="modalAccount-row mb-20">
-                                        <Form.Group controlId="formFirstName" className="mr-50">
-                                            <Form.Label>ชื่อจริง</Form.Label>
-                                            <Form.Control 
-                                                placeholder="ชื่อจริง" 
-                                                onChange={this.handleChange('staff_firstName')}
-                                                required />
-                                            <Form.Control.Feedback />
-                                        </Form.Group>
-                                    
-                                        <Form.Group controlId="formLastName">
-                                            <Form.Label>นามสกุล</Form.Label>
-                                            <Form.Control 
-                                                placeholder="นามสกุล" 
-                                                onChange={this.handleChange('staff_lastName')}
-                                                required />
-                                            <Form.Control.Feedback />
-                                        </Form.Group>
-                                    </div>
-
-                                    <div className="modalAccount-row">
-                                        <Form.Group controlId="formNickname" className="mr-50">
-                                            <Form.Label>ชื่อเล่น</Form.Label>
-                                            <Form.Control 
-                                                placeholder="ชื่อเล่น" 
-                                                onChange={this.handleChange('staff_nickName')}
-                                                required />
-                                            <Form.Control.Feedback />
-                                        </Form.Group>
-
-                                        <Form.Group controlId="formTelephone">
-                                            <Form.Label>เบอร์โทรศัพท์</Form.Label>
-                                            <Form.Control 
-                                                placeholder="เบอร์โทรศัพท์" 
-                                                onChange={this.handleChange('staff_telephone')}
-                                                required />
-                                            <Form.Control.Feedback />
-                                        </Form.Group>
-                                    </div>
-
-                                    <div className="modalAccount-row mb-20">
-                                        <Form.Group controlId="formAccount" className="mr-50">
-                                            <Form.Label>ชื่อบัญชีผู้ใช้งาน</Form.Label>
-                                            <Form.Control 
-                                                placeholder="ชื่อบัญชีผู้ใช้งาน" 
-                                                onChange={this.handleChange('staff_account')}
-                                                required />
-                                            <Form.Control.Feedback />
-                                        </Form.Group>
-
-                                        <Form.Group controlId="formRoles">
-                                            <Form.Label>ตำแหน่ง (Roles)</Form.Label>
-                                                <Form.Control 
-                                                    as="select" 
-                                                    onChange={this.handleChange('staff_role')}
-                                                    required>
-                                                    {this.state.optionRoles.map((data) => 
-                                                        <option className="form-option" value={data}>
-                                                            {data}
-                                                        </option>
-                                                    )}
-                                                </Form.Control>
-                                                <Form.Control.Feedback />
-                                        </Form.Group> 
-
-                                    </div>
-
-                                    <div className="modalAccount-row mb-20">
-                                        <Form.Group as={Col} controlId="formPassword">
-                                            <Form.Label>รหัสผ่าน (Default)</Form.Label>
-                                            <Form.Control type="password" placeholder="staff98765" readOnly />
-                                        </Form.Group>
-                                    </div>
-
-                                    <div className="modalAccount-rowCenter">
-                                        <Button type="submit" className="btn-submit">
-                                            บันทึก
-                                        </Button>
-                                    </div>
-                                </Form> 
-                            }
-
-                        </div>
+                                <div className="modalAccount-rowCenter">
+                                    <Button type="submit" className="btn-submit">
+                                        บันทึก
+                                    </Button>
+                                </div>
+                            </Form> 
+                        }
                     </div>
                 </div>
-                : null
+            </div>
         )
     }   
 } 

@@ -28,8 +28,8 @@ const Navbar = () => (
     <ul className="nav nav-tabs bg-secondary">
       <Container>
         <li className="nav-item" style={{height:"45px"}} >
-          <Link className="nav-link" to="/">
-            <img src={Logo} alt="logo" width="50%" height="30px" style={{padding: "0 0 0 0"}} />
+          <Link className="nav-link" to="/home">
+            <img src={Logo} alt="logo" width="100%" height="30px" style={{padding: "0 0 0 0"}} />
           </Link>
         </li>
 

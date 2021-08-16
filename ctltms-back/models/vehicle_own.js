@@ -11,8 +11,14 @@ let vehicle_own = new Schema({
     plate_no : {type: String},
     plate_province : {type: String},
     weight : {type: Number},
-    status_work : {type: String},
-    status_car : {type: String},
+    status_work : {
+        type: String,
+        default: "ว่าง"
+    },
+    status_car : {
+        type: String,
+        default: "พร้อมใช้งาน"
+    },
     date_register: {type: String},
 } 
 , { collection : 'vehicle_own' }

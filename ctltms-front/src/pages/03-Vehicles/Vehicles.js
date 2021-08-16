@@ -4,10 +4,13 @@ import styled from 'styled-components';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar/Sidebar'
 import VehicleTable from '../../components/Vehicle_Table/Vehicle_Table'
+import AddVehicleModal from './Modal-Vehicles';
+import Filter from '../../components/FilterDropdown/AccountFilter';
 import Table from '../../components/Table/Table';
-import SearchBar from '../../components/SearchBar/SearchBar';
-import '../../components/Global_style.css'
-import './Vehicles.css'
+import IconFilter from '../../images/filter.png';
+import IconAdd from '../../images/add.png';
+import '../../components/Global_style.css';
+import './Vehicles.css';
 
 const MenuButton = styled.button`
     color: #404040;
@@ -40,49 +43,65 @@ export default class main extends Component {
         assoData: [],
     }
 
-    componentDidMount() {
-        axios.get(`http://localhost:4000/vehicle`)
-        .then((res) => {
-            let dataList = [];
-            let amount_avail = 0;
-            let amount_fixing = 0;
-            let amount_oos = 0;
-            for(var i = 0; i < res.data.length; i++){
-                let tmp = {};
-                tmp['no'] = `${i+1}`;
-                tmp['plate_no'] = res.data[i].plate_no;
-                tmp['plate_province'] = res.data[i].plate_province;
-                tmp['car_brand'] = res.data[i].car_brand;
-                tmp['car_model'] = res.data[i].car_model;
-                tmp['car_size'] = res.data[i].car_size;
-                if(tmp['car_size']==='หัวลากมีปั่นไฟพร้อมหาง' | tmp['car_size']==='หัวลากพร้อมหาง'){
-                    tmp['car_type'] = '-';
-                } else {
-                    tmp['car_type'] = res.data[i].car_type;
+    vehicleOwnAPI = axios.get("http://localhost:4000/vehicle");
+    vehicleAssoAPI = axios.get("http://localhost:4000/vehicle/asso");
+
+    componentDidMount(){
+        axios
+        .all([this.vehicleOwnAPI, this.vehicleAssoAPI])
+        .then(
+            axios.spread((...responses) => {
+                const res = responses[0];
+                const resAsso = responses[1];
+
+                let amount_asso = resAsso.data.length;
+
+                let dataList = [];
+                let amount_avail = 0;
+                let amount_fixing = 0;
+                let amount_oos = 0;
+                for(var i = 0; i < res.data.length; i++){
+                    let tmp = {};
+                    tmp['no'] = `${i+1}`;
+                    tmp['plate_no'] = res.data[i].plate_no;
+                    tmp['plate_province'] = res.data[i].plate_province;
+                    tmp['car_brand'] = res.data[i].car_brand;
+                    tmp['car_model'] = res.data[i].car_model;
+                    tmp['car_size'] = res.data[i].car_size;
+                    if(tmp['car_size']==='หัวลากมีปั่นไฟพร้อมหาง' | tmp['car_size']==='หัวลากพร้อมหาง'){
+                        tmp['car_type'] = '-';
+                    } else {
+                        tmp['car_type'] = res.data[i].car_type;
+                    }
+                    tmp['car_temp_start'] = res.data[i].car_temp_start
+                    tmp['car_temp_end'] = res.data[i].car_temp_end;
+                    tmp['weight'] = res.data[i].weight;
+                    tmp['status_work'] = res.data[i].status_work;
+                    if(res.data[i].status_car === "พร้อมใช้งาน"){
+                        amount_avail+=1;
+                    } else if(res.data[i].status_car === "กำลังซ่อม"){
+                        amount_fixing+=1;
+                    } else {
+                        amount_oos+=1;
+                    }
+                    tmp['status_car'] = res.data[i].status_car;
+                    tmp['date_register'] = res.data[i].date_register;
+                    dataList.push(tmp);
                 }
-                tmp['car_temp_start'] = res.data[i].car_temp_start
-                tmp['car_temp_end'] = res.data[i].car_temp_end;
-                tmp['weight'] = res.data[i].weight;
-                tmp['status_work'] = res.data[i].status_work;
-                if(res.data[i].status_car === "พร้อมใช้งาน"){
-                    amount_avail+=1;
-                } else if(res.data[i].status_car === "กำลังซ่อม"){
-                    amount_fixing+=1;
-                } else {
-                    amount_oos+=1;
-                }
-                tmp['status_car'] = res.data[i].status_car;
-                tmp['date_register'] = res.data[i].date_register;
-                dataList.push(tmp);
-            }
-            this.setState({totalData: dataList});
-            this.setState({menuData: [{"menu_id": 1, "name": "ทั้งหมด", "amount": amount_avail+amount_fixing+amount_oos}, 
-                {"menu_id": 2, "name": "พร้อมใช้งาน", "amount": amount_avail}, 
-                {"menu_id": 3, "name": "กำลังซ่อม", "amount": amount_fixing},
-                {"menu_id": 4, "name": "เสีย", "amount": amount_oos},
-                {"menu_id": 5, "name": "รถร่วม", "amount": '...'}]});
-        });
-    }
+                this.setState({totalData: dataList});
+                this.setState({menuData: [
+                    {"menu_id": 1, "name": "ทั้งหมด", "amount": amount_avail+amount_fixing+amount_oos}, 
+                    {"menu_id": 2, "name": "พร้อมใช้งาน", "amount": amount_avail}, 
+                    {"menu_id": 3, "name": "กำลังซ่อม", "amount": amount_fixing},
+                    {"menu_id": 4, "name": "เสีย", "amount": amount_oos},
+                    {"menu_id": 5, "name": "รถร่วม", "amount": amount_asso}]
+                });
+            })
+        )
+        .catch( err => {
+            console.log(err);
+        })
+    }        
 
     getData_avail = () => {
         let data = this.state.totalData;
@@ -163,7 +182,7 @@ export default class main extends Component {
     };
 
     getData_Asso = () => {
-        axios.get(`http://localhost:4000/vehicleAsso`)
+        axios.get(`http://localhost:4000/vehicle/asso`)
             .then((res) => {
                 let dataList = [];
                 let amount_asso = 0;
@@ -210,15 +229,59 @@ export default class main extends Component {
         }
     }
 
+    showModal = () => {
+        this.setState(prev => ({
+            showModal: !prev.showModal
+        }));
+    };
+
+    showFilter = () => {
+        this.setState(prev => ({
+            showFilter: !prev.showFilter
+        }));
+    };
+
     render(){
         return (
             <div>
+                <AddVehicleModal 
+                    showModal={this.state.showModal}
+                    onClose={this.showModal}
+                    onSubmit={this.updateData}
+                />
                 <Navbar />
                 <div className="global-container">
                     <Sidebar menuIndex={3} />
                     <div className="global-content">
                         <div className="global-title">S03 - จัดการข้อมูลรถขนส่ง</div>
-                        <SearchBar />
+
+                        {/* Search Bar START */}
+                        <div className="searchbar barContainer">
+                            <input 
+                                className="mainLoginInput" 
+                                type="text" 
+                                placeholder="&#61442;   ค้นหารายการ"
+                            />
+
+                            <button 
+                                className="searchbar action-btn mr-10"
+                                onClick={this.showFilter}>
+                                <img src={IconFilter} alt="filter" width="16px" />
+                                <div className="searchbar action-btn-content">กรอง</div>
+                            </button>
+
+                            <button 
+                                className="searchbar action-btn"
+                                onClick={this.showModal}>
+                                <img src={IconAdd} alt="add" width="16px" />
+                                <div className="searchbar action-btn-content">เพิ่มข้อมูล</div>
+                            </button>
+                        </div>
+                        <div className="accounts-filterStyle">
+                            <Filter showFilter={this.state.showFilter} />
+                        </div>
+                        {/* Search Bar END */}
+
                         <div className="global-data">
                             <div className="global-menu">
                                 {this.state.menuData.map( (menu) => (
@@ -239,29 +302,38 @@ export default class main extends Component {
                                 <VehicleTable 
                                     theadData={this.state.totalHeader}
                                     tbodyData={this.state.totalData}
+                                    name="รถบริษัท"
                                     edit
                                 /> 
                                 : this.state.menuSelected===2?
                                     <Table 
                                         theadData={this.state.statusHeader}
                                         tbodyData={this.state.availData}
+                                        ref={3}
+                                        name="รถบริษัท"
                                         edit
                                     /> 
                                     : this.state.menuSelected===3?
                                         <Table 
                                             theadData={this.state.statusHeader}
                                             tbodyData={this.state.fixingData}
+                                            ref={3}
+                                            name="รถบริษัท"
                                             edit
                                         /> 
                                         : this.state.menuSelected===4?
                                             <Table 
                                                 theadData={this.state.statusHeader}
                                                 tbodyData={this.state.oosData}
+                                                ref={3}
+                                                name="รถบริษัท"
                                                 edit
                                             /> 
                                             :   <Table 
                                                     theadData={this.state.assoHeader}
                                                     tbodyData={this.state.assoData}
+                                                    ref={3}
+                                                    name="รถร่วม"
                                                     edit
                                                 />
                             }

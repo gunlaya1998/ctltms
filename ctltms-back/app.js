@@ -32,6 +32,9 @@ app.use(expressValidator());
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const staffRoutes = require('./routes/staff');
+const logRoutes = require('./routes/accountLog');
+const vehicleOwnRoutes = require('./routes/vehicleOwn');
+const vehicleAssoRoutes = require('./routes/vehicleAsso');
 
 // routes middleware
 app.use("/", router);
@@ -39,7 +42,9 @@ app.use("/customeraccount" , authRoutes);
 app.use("/customeraccount" , userRoutes);
 app.use("/staffaccount" , authRoutes);
 app.use("/staffaccount" , staffRoutes);
-
+app.use("/log", logRoutes);
+app.use("/vehicle", vehicleOwnRoutes);
+app.use("/vehicle/asso", vehicleAssoRoutes);
 
 app.listen(PORT, function() {
     console.log("Server is running on Port: " + PORT);

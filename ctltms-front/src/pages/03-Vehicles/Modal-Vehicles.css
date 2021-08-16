@@ -1,0 +1,10 @@
+.modalVehicle-row {
+    display: flex;
+    align-items: center;
+    margin-left: .75rem;
+    font-style: italic;
+}
+.modalVehicle-tempField {
+    width: 3.25rem;
+    margin: 0 .5rem;
+}

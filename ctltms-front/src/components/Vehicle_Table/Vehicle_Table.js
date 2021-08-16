@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import ModalEditVehicle from '../EditModal/EditVehicle'
 import EditIcon from '../../images/edit.png'
 import './Vehicle_Table.css';
 
@@ -15,56 +16,83 @@ const StatusIcon = styled.div`
 `
 
 
-const Table = ({theadData, tbodyData}) => {
-    return (
-        <div className="custom-table">
-            <table className="table table-striped table-bordered responsive">
-                <thead className="custom-thead">
-                    <tr>
-                        {theadData.map((title) => {
-                            return <th className="custom-th" scope="col">{title}</th>;
-                        })}
-                    </tr>
-                </thead>
+const Table = ({theadData, tbodyData, name}) => {
+    const [showEditVehicle, setShowEditVehicle] = useState(false);
 
-                <tbody>
-                    {tbodyData.map((rowData) => (
+    // const showEditAccountModal = () => {
+    //     setShowEditAccount(prev => ({
+    //         showEditAccount: !prev.showEditAccount
+    //     }));
+    // }
+
+    const showEditVehicleModal = () => {
+        setShowEditVehicle(prev => ({
+            showEditVehicle: !prev.showEditVehicle
+        }));
+    }
+    return (
+        <>
+            <ModalEditVehicle 
+                vehicleType={name}
+                showEditVehicleModal={showEditVehicle}
+                onClose={() => showEditVehicleModal()}
+                // data={rowData}
+            />
+
+            <div className="custom-table">
+                <table className="table table-striped table-bordered responsive">
+                    <thead className="custom-thead">
                         <tr>
-                            <td key={rowData.no} className="custom-td">
-                                {rowData.no}
-                            </td>
-                            <td key="plate_no" className="custom-td">
-                                {rowData.plate_no}
-                            </td>
-                            <td key="plate_province" className="custom-td">
-                                {rowData.plate_province}
-                            </td>
-                            <td key="car_size" className="custom-td">
-                                {rowData.car_size}
-                            </td>
-                            <td key="car_type" className="custom-td">
-                                {rowData.car_type}
-                            </td>
-                            <td key="temperature" className="custom-td">
-                                {rowData.car_temp_start} - {rowData.car_temp_end}
-                            </td>
-                            <td key="weight" className="custom-td">
-                                {rowData.weight}
-                            </td>
-                            <td key="status_work" className="custom-td">
-                                {rowData.status_work}
-                            </td>
-                            <td key="status_car" className="custom-td">
-                                <StatusIcon status={rowData.status_car} />
-                            </td>
-                            <td key="edit" className="custom-td">
-                                <img type="button" src={EditIcon} alt="edit" width="15px" />
-                            </td>
+                            {theadData.map((title) => {
+                                return <th className="custom-th" scope="col">{title}</th>;
+                            })}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+
+                    <tbody>
+                        {tbodyData.map((rowData) => (
+                            <tr>
+                                <td key={rowData.no} className="custom-td">
+                                    {rowData.no}
+                                </td>
+                                <td key="plate_no" className="custom-td">
+                                    {rowData.plate_no}
+                                </td>
+                                <td key="plate_province" className="custom-td">
+                                    {rowData.plate_province}
+                                </td>
+                                <td key="car_size" className="custom-td">
+                                    {rowData.car_size}
+                                </td>
+                                <td key="car_type" className="custom-td">
+                                    {rowData.car_type}
+                                </td>
+                                <td key="temperature" className="custom-td">
+                                    {rowData.car_temp_start} - {rowData.car_temp_end}
+                                </td>
+                                <td key="weight" className="custom-td">
+                                    {rowData.weight}
+                                </td>
+                                <td key="status_work" className="custom-td">
+                                    {rowData.status_work}
+                                </td>
+                                <td key="status_car" className="custom-td">
+                                    <StatusIcon status={rowData.status_car} />
+                                </td>
+                                <td key="edit" className="custom-td">
+                                    <button 
+                                        className="btn-invisible" 
+                                        onClick={() => showEditVehicleModal()}
+                                    >                                      
+                                        <img type="button" src={EditIcon} alt="edit" width="15px" />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </>
     );};
 
 export default Table;
