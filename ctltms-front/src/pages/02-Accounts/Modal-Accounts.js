@@ -116,7 +116,7 @@ export default class main extends Component {
             this.setState({ staffData: {
                 first_name: this.state.staff_firstName,
                 last_name: this.state.staff_lastName,
-                nickName: this.state.staff_nickName,
+                nickname: this.state.staff_nickName,
                 telephone: this.state.staff_telephone,
                 account: this.state.staff_account,
                 role: this.state.staff_role
@@ -293,7 +293,6 @@ export default class main extends Component {
                                             required />
                                         <Form.Control.Feedback />
                                     </Form.Group>
-                                
                                     <Form.Group controlId="staffFormLastName">
                                         <Form.Label>นามสกุล</Form.Label>
                                         <Form.Control 

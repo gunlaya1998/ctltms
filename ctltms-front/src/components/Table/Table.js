@@ -5,16 +5,19 @@ import EditIcon from '../../images/edit.png'
 import './Table.css';
 
 const Table = ({theadData, tbodyData, edit, refFromMenu, name}) => {
+    const [dataIndex, setDataIndex] = useState(0);
     const [showEditAccount, setShowEditAccount] = useState(false);
     const [showEditVehicle, setShowEditVehicle] = useState(false);
 
-    const showEditAccountModal = () => {
+    const showEditAccountModal = (index) => {
+        setDataIndex(index);
         setShowEditAccount(prev => ({
             showEditAccount: !prev.showEditAccount
         }));
     }
 
-    const showEditVehicleModal = () => {
+    const showEditVehicleModal = (index) => {
+        setDataIndex(index);
         setShowEditVehicle(prev => ({
             showEditVehicle: !prev.showEditVehicle
         }));
@@ -25,6 +28,7 @@ const Table = ({theadData, tbodyData, edit, refFromMenu, name}) => {
             {refFromMenu===2? 
                 <ModalEditAccount 
                     accountType={name}
+                    dataIndex={dataIndex}
                     showEditAccountModal={showEditAccount}
                     onClose={() => showEditAccountModal()}/>
                 : <ModalEditVehicle 
@@ -43,7 +47,7 @@ const Table = ({theadData, tbodyData, edit, refFromMenu, name}) => {
                     </thead>
 
                     <tbody>
-                        {tbodyData.map((rowData) => (
+                        {tbodyData.map((rowData, index) => (
                             <tr>
                                 {rowData.map((item) => (
                                     typeof(item)==="object"? 
@@ -55,16 +59,16 @@ const Table = ({theadData, tbodyData, edit, refFromMenu, name}) => {
                                         : <td className="custom-td">{item}</td>
                                 ))}
                                 {edit?
-                                    <td className="custom-td">
+                                    <td className="custom-td" key="edit-btn">
                                         {refFromMenu===2? 
                                             <button 
                                                 className="btn-invisible" 
-                                                onClick={() => showEditAccountModal()}>                                      
+                                                onClick={() => showEditAccountModal(index)}>                                      
                                                     <img type="button" src={EditIcon} alt="edit" width="15px" />
                                             </button>
                                         :   <button 
                                                 className="btn-invisible" 
-                                                onClick={() => showEditVehicleModal()}>                                      
+                                                onClick={() => showEditVehicleModal(index)}>                                      
                                                 <img type="button" src={EditIcon} alt="edit" width="15px" />
                                             </button>
                                         }

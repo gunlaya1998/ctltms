@@ -148,8 +148,7 @@ export default class main extends Component {
         this.setState({menuSelected: name});
         if(name==="ลูกค้า"){
             this.getData_Customer();
-        }
-        else if (name==="ประวัติการเข้าใช้งาน"){
+        } else if (name==="ประวัติการเข้าใช้งาน"){
             this.getData_Log();
         } else {
             this.getData_Staff();

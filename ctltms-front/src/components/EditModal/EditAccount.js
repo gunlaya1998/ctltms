@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import close from '../../images/exit-buttom@2x.png'
@@ -8,8 +9,6 @@ export default class main extends Component {
     constructor(props){
         super(props)
         this.state = {
-            // stateModal: this.props.showModal,
-            // show: false,
             optionBusinessLabel:'เลือกประเภทธุรกิจ',
             optionBusiness:[ 
                 {
@@ -42,7 +41,7 @@ export default class main extends Component {
                 }
             ],
             optionRoles:[
-                'Regular Staff', 
+                'Regular Staff',
                 'Editor', 
                 'Administrator', 
                 'Super Administrator'],
@@ -53,12 +52,50 @@ export default class main extends Component {
             customer_email: '',
             customer_telephone: '',
             customer_account: '',
+            customer_status: '',
             staff_account: '',
             staff_firstname: '',
             staff_lastname: '',
             staff_nickname: '',
             staff_telephone: '',
-            staff_role: ''
+            staff_role: '',
+            staff_status: ''
+        }
+    }
+
+    componentDidMount() {
+        console.log(this.props.accountType);
+        if(this.props.accountType==="พนักงาน"){
+            axios.get(`http://localhost:4000/staffaccount`)
+            .then((res) => {
+                var data = res.data[this.props.dataIndex];
+                this.setState({
+                    staff_account: data.account,
+                    staff_firstname: data.first_name,
+                    staff_lastname: data.last_name,
+                    staff_nickname: data.nickname,
+                    staff_telephone: data.telephone,
+                    staff_role: data.role,
+                    staff_status: data.status
+                })
+            });
+        } 
+        else if(this.props.accountType==="ลูกค้า"){
+            axios.get(`http://localhost:4000/customeraccount`)
+            .then((res) => {
+                var data = res.data[this.props.dataIndex];
+                // console.log(data);
+                // this.setState({
+                //     customer_firstname: data.first_name,
+                //     customer_lastname: data.last_name,
+                //     customer_company: data.company,
+                //     customer_business: data.Business,
+                //     customer_email: data.email,
+                //     customer_telephone: data.telephone,
+                //     customer_account: data.account,
+                //     customer_status: data.status,
+                // })
+            });
         }
     }
 
@@ -124,6 +161,7 @@ export default class main extends Component {
     };
 
     handleChange = name => e => {
+        console.log('e.target.value : '+ e.target.value);
         this.setState({[name]: e.target.value});
     }
     
@@ -143,15 +181,97 @@ export default class main extends Component {
                     />
                     <div className="modalAccount-title">แก้ไขบัญชีผู้ใช้ - {this.props.accountType} </div>
                     
-{/*----------------------------- Customer Registration Form -----------------------------*/}
-                    {this.props.accountType==="ลูกค้า"? 
+{/*----------------------------- Staff Registration Form -----------------------------*/}
+                    {this.props.accountType==="พนักงาน"? 
                         <Form noValidate validated={this.state.formValidate} onSubmit={this.handleSubmit}>
+                            <div className="modalAccount-row mb-20">
+                                <Form.Group controlId="staffFormFirstName" className="mr-50">
+                                    <Form.Label>ชื่อจริง</Form.Label>
+                                    <Form.Control 
+                                        defaultValue={this.state.staff_firstname}
+                                        onChange={this.handleChange('staff_firstName')}
+                                        required />
+                                    {/* <Form.Control.Feedback /> */}
+                                </Form.Group>
+                            
+                                <Form.Group controlId="staffFormLastName">
+                                    <Form.Label>นามสกุล</Form.Label>
+                                    <Form.Control 
+                                        defaultValue={this.state.staff_lastname}
+                                        onChange={this.handleChange('staff_lastName')}
+                                        required />
+                                    {/* <Form.Control.Feedback /> */}
+                                </Form.Group>
+                            </div>
+
+                            <div className="modalAccount-row">
+                                <Form.Group controlId="staffFormNickname" className="mr-50">
+                                    <Form.Label>ชื่อเล่น</Form.Label>
+                                    <Form.Control 
+                                        defaultValue={this.state.staff_nickname}
+                                        onChange={this.handleChange('staff_nickName')}
+                                        required />
+                                    {/* <Form.Control.Feedback /> */}
+                                </Form.Group>
+
+                                <Form.Group controlId="staffFormTelephone">
+                                    <Form.Label>เบอร์โทรศัพท์</Form.Label>
+                                    <Form.Control 
+                                        defaultValue={this.state.staff_telephone}
+                                        onChange={this.handleChange('staff_telephone')}
+                                        required />
+                                    {/* <Form.Control.Feedback /> */}
+                                </Form.Group>
+                            </div>
+
+                            <div className="modalAccount-row mb-20">
+                                <Form.Group controlId="staffFormAccount" className="mr-50">
+                                    <Form.Label>ชื่อบัญชีผู้ใช้งาน</Form.Label>
+                                    <Form.Control 
+                                        defaultValue={this.state.staff_account}
+                                        onChange={this.handleChange('staff_account')}
+                                        required />
+                                    {/* <Form.Control.Feedback /> */}
+                                </Form.Group>
+
+                                <Form.Group controlId="staffFormRoles">
+                                    <Form.Label>ตำแหน่ง (Roles)</Form.Label>
+                                        <Form.Control 
+                                            as="select" 
+                                            onChange={this.handleChange('staff_role')}
+                                            required>
+                                            {this.state.optionRoles.map((data) => 
+                                                <option className="form-option" value={data}>
+                                                    {data}
+                                                </option>
+                                            )}
+                                        </Form.Control>
+                                        {/* <Form.Control.Feedback /> */}
+                                </Form.Group> 
+                            </div>
+
+                            <div className="modalAccount-row mb-20">
+                                <Form.Group controlId="staffFormPassword">
+                                    <Form.Label>รหัสผ่าน (Default)</Form.Label>
+                                    <Form.Control type="password" placeholder="staff98765" readOnly />
+                                </Form.Group>
+                            </div>
+
+                            <div className="modalAccount-rowCenter">
+                                <Button type="submit" className="btn-submit">
+                                    บันทึก
+                                </Button>
+                            </div>
+                        </Form> 
+
+/*----------------------------- Customer Registration Form -----------------------------*/
+
+                        : <Form noValidate validated={this.state.formValidate} onSubmit={this.handleSubmit}>
                             <div className="modalAccount-row mb-20">
                                 <Form.Group controlId="customerFormFirstName" className="mr-50">
                                     <Form.Label>ชื่อจริง</Form.Label>
                                     <Form.Control 
-                                        value={this.state.customer_firstname}
-                                        // placeholder={customer_firstname} 
+                                        defaultValue={this.state.customer_firstname}
                                         onChange={this.handleChange('customer_firstname')}
                                         required />
                                 </Form.Group>
@@ -159,9 +279,8 @@ export default class main extends Component {
                                 <Form.Group controlId="customerFormLastName">
                                     <Form.Label>นามสกุล</Form.Label>
                                     <Form.Control 
-                                        // placeholder={customer_lastname}
+                                        defaultValue={this.state.customer_lastname}
                                         onChange={this.handleChange('customer_lastName')}
-                                        // disabled
                                         required />
                                 </Form.Group>
                             </div>
@@ -170,7 +289,7 @@ export default class main extends Component {
                                 <Form.Group controlId="customerFormCompany" className="mr-50">
                                     <Form.Label>บริษัท</Form.Label>
                                     <Form.Control 
-                                        // placeholder={customer_company}
+                                        defaultValue={this.state.customer_company}
                                         onChange={this.handleChange('customer_company')}
                                         required />
                                 </Form.Group>
@@ -188,12 +307,8 @@ export default class main extends Component {
                                                 <option className="form-optionCategory" disabled> 
                                                     {data.type} 
                                                 </option>
-
                                                 {data.option.map((item) =>
-                                                    <option 
-                                                        className="form-option" 
-                                                        value={item}
-                                                    >
+                                                    <option className="form-option" value={item}>
                                                         {item}
                                                     </option>
                                                 )}
@@ -208,14 +323,14 @@ export default class main extends Component {
                                 <Form.Group controlId="customerFormEmail" className="mr-50">
                                     <Form.Label>อีเมล</Form.Label>
                                     <Form.Control 
-                                        // placeholder={customer_email}
+                                        defaultValue={this.state.customer_email}
                                         onChange={this.handleChange('customer_email')}/>
                                 </Form.Group>
 
                                 <Form.Group controlId="customerFormTelephone">
                                     <Form.Label>เบอร์โทรศัพท์</Form.Label>
                                     <Form.Control 
-                                        // placeholder={customer_telephone}
+                                        defaultValue={this.state.customer_telephone}
                                         onChange={this.handleChange('customer_telephone')}
                                         required />
                                 </Form.Group>
@@ -225,7 +340,7 @@ export default class main extends Component {
                                 <Form.Group controlId="customerFormAccount" className="mr-50">
                                     <Form.Label>ชื่อบัญชีผู้ใช้งาน</Form.Label>
                                     <Form.Control 
-                                        // placeholder={customer_account}
+                                        defaultValue={this.state.customer_account}
                                         onChange={this.handleChange('customer_account')}
                                         required />
                                 </Form.Group>
@@ -238,88 +353,6 @@ export default class main extends Component {
 
                             <div className="modalAccount-rowCenter">
                                 <Button type="reset" className="btn-submit" onClick={this.handleSubmit}>
-                                    บันทึก
-                                </Button>
-                            </div>
-                        </Form> 
-
-// ----------------------------- Staff Registration Form -----------------------------
-                        : <Form noValidate validated={this.state.formValidate} onSubmit={this.handleSubmit}>
-                            <div className="modalAccount-row mb-20">
-                                <Form.Group controlId="staffFormFirstName" className="mr-50">
-                                    <Form.Label>ชื่อจริง</Form.Label>
-                                    <Form.Control 
-                                        // placeholder={staff_firstname}
-                                        onChange={this.handleChange('staff_firstName')}
-                                        required />
-                                    <Form.Control.Feedback />
-                                </Form.Group>
-                            
-                                <Form.Group controlId="staffFormLastName">
-                                    <Form.Label>นามสกุล</Form.Label>
-                                    <Form.Control 
-                                        // placeholder={staff_lastname}
-                                        onChange={this.handleChange('staff_lastName')}
-                                        required />
-                                    <Form.Control.Feedback />
-                                </Form.Group>
-                            </div>
-
-                            <div className="modalAccount-row">
-                                <Form.Group controlId="staffFormNickname" className="mr-50">
-                                    <Form.Label>ชื่อเล่น</Form.Label>
-                                    <Form.Control 
-                                        // placeholder={staff_nickname}
-                                        onChange={this.handleChange('staff_nickName')}
-                                        required />
-                                    <Form.Control.Feedback />
-                                </Form.Group>
-
-                                <Form.Group controlId="staffFormTelephone">
-                                    <Form.Label>เบอร์โทรศัพท์</Form.Label>
-                                    <Form.Control 
-                                        // placeholder={staff_telephone}
-                                        onChange={this.handleChange('staff_telephone')}
-                                        required />
-                                    <Form.Control.Feedback />
-                                </Form.Group>
-                            </div>
-
-                            <div className="modalAccount-row mb-20">
-                                <Form.Group controlId="staffFormAccount" className="mr-50">
-                                    <Form.Label>ชื่อบัญชีผู้ใช้งาน</Form.Label>
-                                    <Form.Control 
-                                        // placeholder={staff_account}
-                                        onChange={this.handleChange('staff_account')}
-                                        required />
-                                    <Form.Control.Feedback />
-                                </Form.Group>
-
-                                <Form.Group controlId="staffFormRoles">
-                                    <Form.Label>ตำแหน่ง (Roles)</Form.Label>
-                                        <Form.Control 
-                                            as="select" 
-                                            onChange={this.handleChange('staff_role')}
-                                            required>
-                                            {this.state.optionRoles.map((data) => 
-                                                <option className="form-option" value={data}>
-                                                    {data}
-                                                </option>
-                                            )}
-                                        </Form.Control>
-                                        <Form.Control.Feedback />
-                                </Form.Group> 
-                            </div>
-
-                            <div className="modalAccount-row mb-20">
-                                <Form.Group controlId="staffFormPassword">
-                                    <Form.Label>รหัสผ่าน (Default)</Form.Label>
-                                    <Form.Control type="password" placeholder="staff98765" readOnly />
-                                </Form.Group>
-                            </div>
-
-                            <div className="modalAccount-rowCenter">
-                                <Button type="submit" className="btn-submit">
                                     บันทึก
                                 </Button>
                             </div>

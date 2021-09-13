@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import close from '../../images/exit-buttom@2x.png';
@@ -33,23 +34,23 @@ export default class main extends Component {
             statusSelected: 'avail',
             optionProvince: [],
             optionCarSize: [],
-            optionCarType: [],
+            optionCarType: ['แห้ง', 'ห้องเย็น'],
             ownVehicleData: null,
             assoVehicleData: null,
             own_plateNo: '',
-            own_plateProvince: '',
+            own_plateProvince: 'กรุงเทพมหานคร',
             own_date: '',
             own_model: '',
-            own_size: '',
-            own_type: '',
+            own_size: '4 ล้อ',
+            own_type: 'แห้ง',
             own_tempStart: null,
             own_tempEnd: null,
             own_weight: null,
             asso_plateNo: '',
-            asso_plateProvince: '',
+            asso_plateProvince: 'กรุงเทพมหานคร',
             asso_model: '',
-            asso_size: '',
-            asso_type: '',
+            asso_size: '4 ล้อ',
+            asso_type: 'แห้ง',
             asso_tempStart: null,
             asso_tempEnd: null,
             asso_weight: null,
@@ -57,6 +58,42 @@ export default class main extends Component {
             asso_telephone: '',
             asso_price: '',
         }
+    }
+
+    // API options
+    option_provinceAPI = axios.get("http://localhost:4000/options/province");
+    option_carSizeAPI = axios.get("http://localhost:4000/options/carSize");
+
+    // // API data from db (ref by row no.)
+    // vehicleOwnAPI = axios.get("http://localhost:4000/vehicle");
+    // vehicleAssoAPI = axios.get("http://localhost:4000/vehicle/asso");
+
+    componentDidMount(){
+        axios
+        .all([this.option_provinceAPI, this.option_carSizeAPI])
+        .then(
+            axios.spread((...responses) => {
+                const resProvince = responses[0];
+                const resCarSize = responses[1];
+
+                // province section
+                let province = [];
+                for(var i = 0; i < resProvince.data.length; i++){
+                    province.push(resProvince.data[i].PROVINCE_NAME);
+                }
+                this.setState({ optionProvince: province });
+
+                // carSize section
+                let carSize = [];
+                for(var j = 0; j < resCarSize.data.length; j++){
+                    carSize.push(resCarSize.data[j].size_name);
+                }
+                this.setState({ optionCarSize: carSize });
+            })
+        )
+        .catch( err => {
+            console.log(err);
+        })
     }
 
     handleSubmit = (e) => {
@@ -189,7 +226,9 @@ export default class main extends Component {
                                                 onChange={this.handleChange('own_plateProvince')}
                                                 required
                                             >
-                                                <option>k</option>
+                                                {this.state.optionProvince.map((province) => 
+                                                    <option>{province}</option>
+                                                )}
                                             </Form.Control>
                                         </Form.Group>
                                     </div>
@@ -221,7 +260,9 @@ export default class main extends Component {
                                                 onChange={this.handleChange('own_size')}
                                                 required
                                             >
-                                                <option>k</option>
+                                                {this.state.optionCarSize.map((size) => 
+                                                    <option>{size}</option>
+                                                )}
                                             </Form.Control>
                                         </Form.Group>
                                     
@@ -232,7 +273,9 @@ export default class main extends Component {
                                                 onChange={this.handleChange('own_type')}
                                                 required
                                             >
-                                                <option>k</option>
+                                                {this.state.optionCarType.map((type) => 
+                                                    <option>{type}</option>
+                                                )}
                                             </Form.Control>
                                         </Form.Group>
                                     </div>
@@ -290,7 +333,9 @@ export default class main extends Component {
                                     onChange={this.handleChange('asso_plateProvince')}
                                     required
                                 >
-                                    <option>k</option>
+                                    {this.state.optionProvince.map((province) => 
+                                        <option>{province}</option>
+                                    )}
                                 </Form.Control>
                             </Form.Group>
                         </div>
@@ -312,7 +357,9 @@ export default class main extends Component {
                                     onChange={this.handleChange('asso_size')}
                                     required
                                 >
-                                    <option>k</option>
+                                    {this.state.optionCarSize.map((size) => 
+                                        <option>{size}</option>
+                                    )}
                                 </Form.Control>
                             </Form.Group>
 
@@ -326,7 +373,9 @@ export default class main extends Component {
                                     onChange={this.handleChange('asso_type')}
                                     required
                                 >
-                                    <option>k</option>
+                                    {this.state.optionCarType.map((type) => 
+                                        <option>{type}</option>
+                                    )}
                                 </Form.Control>
                             </Form.Group>
 
