@@ -1,4 +1,5 @@
 const Log = require('../models/account_log')
+const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.Log = (req, res) => {
     Log.find().exec((err, data) => {

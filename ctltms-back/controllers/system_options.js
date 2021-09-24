@@ -1,5 +1,6 @@
 const Province = require('../models/option_province')
 const CarSize = require('../models/option_carSize')
+const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.Province = (req, res) => {
     Province.find().exec((err, data) => {
